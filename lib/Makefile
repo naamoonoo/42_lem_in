@@ -19,9 +19,11 @@ S_FD	=	$(wildcard src/file_descriptor/*.c)
 O_FD	=	$(patsubst src/file_descriptor/%.c, obj/file_descriptor/%.o, $(S_FD))
 S_CHK	=	$(wildcard src/checking/*.c)
 O_CHK	=	$(patsubst src/checking/%.c, obj/checking/%.o, $(S_CHK))
+S_DSA	=	$(wildcard src/data_structure/*.c)
+O_DSA	=	$(patsubst src/data_structure/%.c, obj/data_structure/%.o, $(S_CHK))
 
-SRCS	=	$(S_PTF)	$(S_STR)	$(S_NUM)	$(S_MEM)	$(S_LST)	$(S_GNL)	$(S_FD)	$(S_CHK)
-OBJS	=	$(O_PTF)	$(O_STR)	$(O_NUM)	$(O_MEM)	$(O_LST)	$(O_GNL)	$(O_FD)	$(O_CHK)
+SRCS	=	$(S_PTF)	$(S_STR)	$(S_NUM)	$(S_MEM)	$(S_LST)	$(S_GNL)	$(S_FD)	$(S_CHK)	$(S_DSA)
+OBJS	=	$(O_PTF)	$(O_STR)	$(O_NUM)	$(O_MEM)	$(O_LST)	$(O_GNL)	$(O_FD)	$(O_CHK)	$(O_DSA)
 
 all		:	$(NAME)
 
@@ -35,6 +37,7 @@ obj		:
 			@mkdir obj/get_next_line
 			@mkdir obj/file_descriptor
 			@mkdir obj/checking
+			@mkdir obj/data_structure
 
 obj/%.o	: 	src/%.c
 			@$(CC) $(CFLAGS) $(OPTION) -c -o $@ $<
