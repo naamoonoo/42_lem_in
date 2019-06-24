@@ -1,8 +1,8 @@
 NAME	=	lem_in
 
 CC		=	gcc
-CFLAGS	=	-Wall -Wextra -Werror -Iincludes
-DEBUG	=	-g -fsanitize=address
+CFLAGS	=	-Wall -Wextra -Werror -Iincludes -g -fsanitize=address
+# DEBUG	=	-g -fsanitize=address
 
 SRC		=	$(wildcard src/*.c)
 OBJ		=	$(patsubst src/%.c, obj/%.o, $(SRC))
@@ -18,11 +18,11 @@ $(NAME)	:	obj $(OBJ)
 			@$(CC) -o $(NAME) $(CFLAGS) $(OBJ) libftprintf.a
 			@echo "excutable file $(NAME) has been made"
 
-db		:	obj $(OBJ)
-			@cd lib && make
-			@mv lib/libftprintf.a .
-			@$(CC) -o $(MANE) $(CFLAGS) $(OBJ) libftprintf.a $(DEBUG)
-			@echo "excutable file $(NAME) with debug mode has been made"
+# db		:	obj $(OBJ)
+# 			@cd lib && make
+# 			@mv lib/libftprintf.a .
+# 			@$(CC) -o $(MANE) $(CFLAGS) $(OBJ) libftprintf.a $(DEBUG)
+# 			@echo "excutable file $(NAME) with debug mode has been made"
 
 obj		:
 			@mkdir obj
