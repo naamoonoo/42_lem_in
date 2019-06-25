@@ -4,21 +4,23 @@ int		initialize_data(t_vec *v, int fd)
 {
 	char	*line;
 	int		is_start;
-	int		is_end;
 	int		is_ant_num;
 
 	line = NULL;
 	is_ant_num = 0;
 	while (get_next_line(fd, &line) > 0)
 	{
-		if (ft_strchr(line, '#'))
+		if (!ft_strcmp(line, "##start") || !ft_strcmp(line, "##end"))
 		{
-			is_start = !ft_strcmp(line, "##start") ? 1 : 0;
-			is_end = !ft_strcmp(line, "##end") ? 1 : 0;
-			FP("%s\n", line);
+			is_start = ft_strcmp(line, "##start") == 0 ? 1 : 0;
+			free(line);
+			get_next_line(fd, &line);
+			is_start ? add_room(v, line, 1, 0) : add_room(v, line, 0, 1);
 		}
+		else if (ft_strchr(line, '#'))
+			FP("[comment] %s\n", line);
 		else if (ft_strchr(line, ' '))
-			add_room(v, line, &is_start, &is_end);
+			add_room(v, line, 0, 0);
 		else if (ft_strchr(line, '-'))
 			add_neighbor(v, line);
 		free(line);
@@ -48,18 +50,16 @@ int		initialize_data(t_vec *v, int fd)
 *just read the standard input is enough
 *https://www.tutorialspoint.com/unix/unix-io-redirections.htm
 */
-void	add_room(t_vec *v, char *line, int *is_start, int *is_end)
+void	add_room(t_vec *v, char *line, int is_start, int is_end)
 {
 	t_room	*room;
 
 	if (ft_strchr(line, ' '))
-		room = init_room(line, *is_start, *is_end);
-	if (*is_start)
+		room = init_room(line, is_start, is_end);
+	if (is_start)
 		insert(v, room);
 	else
 		push_back(v, room);
-	*is_start = 0;
-	*is_end = 0;
 }
 
 void	add_neighbor(t_vec *v, char *line)
@@ -70,11 +70,13 @@ void	add_neighbor(t_vec *v, char *line)
 	int		i;
 
 	names = ft_strsplit(line, '-');
-	room = get_by_name(v, names[0]);
-	neigbor = get_by_name(v, names[1]);
+	if (!(room = get_by_name(v, names[0])))
+		return ;
+	if (!(neigbor = get_by_name(v, names[1])))
+		return ;
 	if (!room->connected)
 		init_connected(v, room, neigbor);
-	else
+	else if (!check_existed(room, neigbor->name))
 	{
 		i = 0;
 		while (room->connected[i])
@@ -86,3 +88,37 @@ void	add_neighbor(t_vec *v, char *line)
 		free(names[i]);
 	free(names);
 }
+
+// void	add_neighbor(t_vec *v, char *line)
+// {
+// 	t_room	*room;
+// 	t_room	*neighbor;
+// 	char	**names;
+// 	int		i;
+
+// 	names = ft_strsplit(line, '-');
+// 	room = get_by_name(v, names[0]);
+// 	neighbor = ft_memalloc(sizeof(t_room));
+// 	if (!room->neighbors)
+// 	{
+// 		FP("room[%s]'s neighbor is empty\n", room->name);
+// 		init_vector(room->neighbors);
+// 		// push_back(room->neighbors, neighbor);
+// 		// room->neighbors = (t_vec *)malloc(sizeof(t_vec));
+// 		// room->neighbors->front = neighbor;
+// 		// room->neighbors->end = neighbor;
+// 	}
+// 	// elsm
+// 	FP("try to add neighbor[%s]\n", neighbor->name);
+// 		push_back(room->neighbors, neighbor);
+// 	// else
+// 	// {
+// 	// 	room->neighbors->end->next = neighbor;
+// 	// 	room->neighbors->end = neighbor;
+// 	// }
+// 	i = -1;
+// 	while (names[++i])
+// 		free(names[i]);
+// 	free(names);
+// }
+

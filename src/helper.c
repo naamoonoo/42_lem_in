@@ -16,6 +16,7 @@ t_room	*init_room(char *line, int is_start, int is_end)
 	room->is_end = is_end;
 	room->next = NULL;
 	room->connected = NULL;
+	// room->neighbors = NULL;
 	i = -1;
 	while (info[++i])
 		free(info[i]);
@@ -32,20 +33,38 @@ void	init_connected(t_vec *v, t_room *room, t_room *neighbor)
 	room->connected[i] = neighbor;
 	while (++i < v->size)
 		room->connected[i] = NULL;
-
 }
+
+int		check_existed(t_room *room, char *name)
+{
+	int i;
+
+	i = -1;
+	while (room->connected[++i])
+		if (!ft_strcmp(room->connected[i]->name, name))
+			return (1);
+	return (0);
+}
+
 
 void	print_vec(t_vec	*v)
 {
 	t_room *tmp = v->front;
+	// t_room *n;
 	FP("size of vector is %d\n", v->size);
 	int i;
 	while (tmp)
 	{
 		i = -1;
 		FP("%s(%d, %d) - [%s%s][", tmp->name, tmp->point.x, tmp->point.y, tmp->is_start ? "start" : "", tmp->is_end ? "end" : "");
-		while (tmp->connected[++i])
+		while (tmp->connected && tmp->connected[++i])
 			FP("%s ", tmp->connected[i]->name);
+		// n = tmp->neighbors->front;
+		// while (tmp->neighbors->front)
+		// {
+		// 	FP("%s ", n->name);
+		// 	n = n->next;
+		// }
 		FP("]\n");
 		tmp = tmp->next;
 	}

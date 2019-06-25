@@ -6,7 +6,7 @@
 /*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 13:31:49 by hnam              #+#    #+#             */
-/*   Updated: 2019/06/24 10:57:05 by hnam             ###   ########.fr       */
+/*   Updated: 2019/06/24 17:39:55 by hnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct		s_room
 	int				is_end;
 	int				n_ant;
 	struct s_room	**connected;
+	// t_vec			*neighbors;
 	struct s_room	*next;
 }					t_room;
 
@@ -58,10 +59,11 @@ int					initialize_data(t_vec *v, int fd);
 t_room				*init_room(char *line, int is_start, int is_end);
 void				init_connected(t_vec *v, t_room *room, t_room *neighbor);
 
-
 int					read_data(char *line);
-void				add_room(t_vec *v, char *line, int *is_start, int *is_end);
+void				add_room(t_vec *v, char *line, int is_start, int is_end);
 void				add_neighbor(t_vec *v, char *line);
+int		check_existed(t_room *room, char *name);
+
 
 t_vec				*init_vector();
 void				push_back(t_vec *v, t_room *room);
