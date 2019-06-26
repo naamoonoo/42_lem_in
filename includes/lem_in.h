@@ -6,7 +6,7 @@
 /*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 13:31:49 by hnam              #+#    #+#             */
-/*   Updated: 2019/06/24 17:39:55 by hnam             ###   ########.fr       */
+/*   Updated: 2019/06/26 15:37:01 by hnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,16 @@ typedef struct		s_point
 // 	int				cnt;
 // }					t_neigh;
 
+typedef struct		s_n
+{
+	struct s_room	*room;
+	struct s_n		*next;
+}					t_n;
 
 typedef struct		s_vector
 {
-	struct s_room	*front;
-	struct s_room	*end;
+	t_n				*front;
+	t_n				*end;
 	int				size;
 }					t_vec;
 
@@ -44,8 +49,8 @@ typedef struct		s_room
 	int				is_end;
 	int				n_ant;
 	struct s_room	**connected;
-	// t_vec			*neighbors;
-	struct s_room	*next;
+	t_vec			*neighbors;
+	// struct s_room	*next;
 }					t_room;
 
 typedef struct		s_lem_in
