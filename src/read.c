@@ -6,7 +6,7 @@
 /*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 22:29:29 by hnam              #+#    #+#             */
-/*   Updated: 2019/06/26 22:29:29 by hnam             ###   ########.fr       */
+/*   Updated: 2019/06/26 23:51:35 by hnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,23 +92,33 @@ void	add_room(t_hash *hash, char *line, int is_start, int is_end)
 
 	room = init_room(line, is_start, is_end);
 	hash_insert(hash, room);
+	if (is_start)
+		hash->start = room;
 }
 
 void	add_neighbor(t_hash *hash, char *line)
 {
 	t_room	*room;
 	t_room	*neigbor;
+	t_node	*tmp;
 	char	**names;
 	int		i;
 
 	names = ft_strsplit(line, '-');
-	if (!(room = hash_find(hash, names[0])))
-		return ;
-	if (!(neigbor = hash_find(hash, names[1])))
+	room = hash_find(hash, names[0]);
+	neigbor = hash_find(hash, names[1]);
+	if (!room || !neigbor || room == neigbor)
 		return ;
 	if (!room->neighbors)
 		room->neighbors = init_queue();
-	push_end(room->neighbors, neigbor);
+	tmp = room->neighbors->front;
+	while (tmp)
+	{
+		if (tmp->room == neigbor)
+			return ;
+		tmp = tmp->next;
+	}
+	enqueue(room->neighbors, neigbor);
 	i = -1;
 	while (names[++i])
 		free(names[i]);

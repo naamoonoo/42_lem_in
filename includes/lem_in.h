@@ -6,7 +6,7 @@
 /*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 13:31:49 by hnam              #+#    #+#             */
-/*   Updated: 2019/06/26 22:33:20 by hnam             ###   ########.fr       */
+/*   Updated: 2019/06/27 00:01:40 by hnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct		s_node
 typedef struct		s_hash
 {
 	t_node			**n;
+	t_room			*start;
 	int				capacity;
 }					t_hash;
 
@@ -60,8 +61,9 @@ void				add_room(t_hash *hash, char *line, int is_start, int is_end);
 void				add_neighbor(t_hash *hash, char *line);
 
 t_queue				*init_queue();
-void				push_end(t_queue *queue, t_room *room);
-t_room				*pop_front(t_queue *queue);
+void				enqueue(t_queue *queue, t_room *room);
+t_room				*dequeue(t_queue *queue);
+void				extend_queue(t_queue *queue, t_queue *add);
 void				free_queue(t_queue *queue);
 
 t_hash				*init_hash(int capacity);
@@ -71,6 +73,10 @@ t_room				*hash_find(t_hash *hash, char *key);
 void				free_hash(t_hash *hash);
 
 void				print_hash(t_hash	*hash);
+
+void	find_path(t_hash *hash);
+void	dup_handle(t_hash *unique, t_queue *neighbor, t_queue *que);
+
 
 
 #endif

@@ -32,9 +32,9 @@ clean	:
 			-rm -rf obj
 
 fclean	:	clean
-			-rm -f $(PS) $(CH)
+			-rm -f $(NAME)
 			-rm -f libftprintf.a
 
-re		:	fclean $(PS) $(CH)
+re		:	fclean $(NAME)
 
 .PHONY	:	clean fclean re
