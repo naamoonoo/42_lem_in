@@ -6,7 +6,7 @@
 /*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 22:29:27 by hnam              #+#    #+#             */
-/*   Updated: 2019/06/26 22:30:11 by hnam             ###   ########.fr       */
+/*   Updated: 2019/06/26 23:44:37 by hnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_queue	*init_queue()
 	return (queue);
 }
 
-void	push_end(t_queue *queue, t_room *room)
+void	enqueue(t_queue *queue, t_room *room)
 {
 	t_node	*node;
 
@@ -46,7 +46,7 @@ void	push_end(t_queue *queue, t_room *room)
 	queue->size += 1;
 }
 
-t_room	*pop_front(t_queue *queue)
+t_room	*dequeue(t_queue *queue)
 {
 	t_node	*tmp;
 	t_room	*room;
@@ -54,14 +54,20 @@ t_room	*pop_front(t_queue *queue)
 	if (!queue->front)
 		return (NULL);
 	tmp = queue->front;
-	while (tmp->next != queue->end)
-		tmp = tmp->next;
-	queue->end = tmp;
-	tmp = tmp->next;
+	queue->front = tmp->next;
+	if (!queue->front)
+		queue->end = NULL;
 	room = tmp->room;
-	queue->size -= 1;
-	/* not free in here */
+	free(tmp);
 	return room;
+}
+
+void	extend_queue(t_queue *queue, t_queue *add)
+{
+	if (!queue->front)
+		queue->front = add->front;
+	else
+		queue->end = add->front;
 }
 
 void	free_queue(t_queue *queue)
