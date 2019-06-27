@@ -6,7 +6,7 @@
 /*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 13:31:49 by hnam              #+#    #+#             */
-/*   Updated: 2019/06/27 00:01:40 by hnam             ###   ########.fr       */
+/*   Updated: 2019/06/27 00:17:25 by hnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ int					initialize_data(t_hash *hash);
 t_room				*init_room(char *line, int is_start, int is_end);
 void				add_room(t_hash *hash, char *line, int is_start, int is_end);
 void				add_neighbor(t_hash *hash, char *line);
+void				enqueue_neighbor(t_room *room, t_room *neighbor);
 
 t_queue				*init_queue();
 void				enqueue(t_queue *queue, t_room *room);

@@ -6,7 +6,7 @@
 /*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 22:29:25 by hnam              #+#    #+#             */
-/*   Updated: 2019/06/27 00:03:54 by hnam             ###   ########.fr       */
+/*   Updated: 2019/06/27 00:25:07 by hnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,6 @@ int	main()
 	initialize_data(hash);
 
 	find_path(hash);
-	// free_hash(hash);
+	free_hash(hash);
 	return (0);
 }

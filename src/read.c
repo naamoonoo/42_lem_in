@@ -6,7 +6,7 @@
 /*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 22:29:29 by hnam              #+#    #+#             */
-/*   Updated: 2019/06/26 23:51:35 by hnam             ###   ########.fr       */
+/*   Updated: 2019/06/27 00:18:33 by hnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,28 +99,47 @@ void	add_room(t_hash *hash, char *line, int is_start, int is_end)
 void	add_neighbor(t_hash *hash, char *line)
 {
 	t_room	*room;
-	t_room	*neigbor;
-	t_node	*tmp;
+	t_room	*neighbor;
+	// t_node	*tmp;
 	char	**names;
 	int		i;
 
 	names = ft_strsplit(line, '-');
 	room = hash_find(hash, names[0]);
-	neigbor = hash_find(hash, names[1]);
-	if (!room || !neigbor || room == neigbor)
+	neighbor = hash_find(hash, names[1]);
+	if (!room || !neighbor || room == neighbor)
 		return ;
+	if (!room->neighbors)
+		room->neighbors = init_queue();
+	enqueue_neighbor(room, neighbor);
+	i = -1;
+	while (names[++i])
+		free(names[i]);
+	free(names);
+}
+
+void	enqueue_neighbor(t_room *room, t_room *neighbor)
+{
+	t_node	*tmp;
+
 	if (!room->neighbors)
 		room->neighbors = init_queue();
 	tmp = room->neighbors->front;
 	while (tmp)
 	{
-		if (tmp->room == neigbor)
+		if (tmp->room == neighbor)
 			return ;
 		tmp = tmp->next;
 	}
-	enqueue(room->neighbors, neigbor);
-	i = -1;
-	while (names[++i])
-		free(names[i]);
-	free(names);
+	enqueue(room->neighbors, neighbor);
+	if (!neighbor->neighbors)
+		neighbor->neighbors = init_queue();
+	tmp = neighbor->neighbors->front;
+	while (tmp)
+	{
+		if (tmp->room == room)
+			return ;
+		tmp = tmp->next;
+	}
+	enqueue(neighbor->neighbors, room);
 }

@@ -35,7 +35,6 @@ void	dup_handle(t_hash *unique, t_queue *neighbor, t_queue *que)
 		return ;
 	while (node)
 	{
-		// FP("room %s's neighbor [%s]\n", node->room->name);
 		if (!hash_find(unique, node->room->name))
 		{
 			hash_insert(unique, node->room);
