@@ -14,8 +14,9 @@ t_room	*init_room(char *line, int is_start, int is_end)
 	room->point.y = ft_atoi(info[2]);
 	room->is_start = is_start;
 	room->is_end = is_end;
-	room->next = NULL;
-	room->connected = NULL;
+	room->neighbors = NULL;
+	// room->next = NULL;
+	// room->connected = NULL;
 	// room->neighbors = NULL;
 	i = -1;
 	while (info[++i])
@@ -24,7 +25,7 @@ t_room	*init_room(char *line, int is_start, int is_end)
 	return (room);
 }
 
-void	init_connected(t_vec *v, t_room *room, t_room *neighbor)
+void	init_connected(t_hash *hash, t_room *room, t_room *neighbor)
 {
 	int i;
 
@@ -47,7 +48,7 @@ int		check_existed(t_room *room, char *name)
 }
 
 
-void	print_vec(t_vec	*v)
+void	print_hash(t_hash	*v)
 {
 	t_room *tmp = v->front;
 	// t_room *n;

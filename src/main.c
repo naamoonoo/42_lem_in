@@ -15,10 +15,10 @@
 // /* for debuging */
 // int	main(int ac, char *av[])
 // {
-// 	t_vec *v;
+// 	t_hash *hash;
 // 	int fd = open(av[ac - 1], O_RDONLY);
 
-// 	v = init_vector();
+// 	v = init_hashtor();
 // 	initialize_data(v, fd);
 // 	return (0);
 // }
@@ -26,9 +26,9 @@
 
 int	main()
 {
-	t_vec *v;
+	t_hash *hash;
 
-	v = init_vector();
+	v = init_hashtor();
 	initialize_data(v, 0);
 	return (0);
 }

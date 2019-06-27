@@ -1,6 +1,6 @@
 #include "lem_in.h"
 
-int		initialize_data(t_vec *v, int fd)
+int		initialize_data(t_hash *hash, int fd)
 {
 	char	*line;
 	int		is_start;
@@ -22,10 +22,11 @@ int		initialize_data(t_vec *v, int fd)
 		else if (ft_strchr(line, ' '))
 			add_room(v, line, 0, 0);
 		else if (ft_strchr(line, '-'))
-			add_neighbor(v, line);
+			break;
+			// add_neighbor(v, line);
 		free(line);
 	}
-	print_vec(v);
+	print_hash(v);
 	return (0);
 }
 /*
@@ -50,19 +51,19 @@ int		initialize_data(t_vec *v, int fd)
 *just read the standard input is enough
 *https://www.tutorialspoint.com/unix/unix-io-redirections.htm
 */
-void	add_room(t_vec *v, char *line, int is_start, int is_end)
+void	add_room(t_hash *hash, char *line, int is_start, int is_end)
 {
 	t_room	*room;
 
-	if (ft_strchr(line, ' '))
-		room = init_room(line, is_start, is_end);
+	// if (ft_strchr(line, ' '))
+	room = init_room(line, is_start, is_end);
 	if (is_start)
 		insert(v, room);
 	else
 		push_back(v, room);
 }
 
-void	add_neighbor(t_vec *v, char *line)
+void	add_neighbor(t_hash *hash, char *line)
 {
 	t_room	*room;
 	t_room	*neigbor;
@@ -89,7 +90,7 @@ void	add_neighbor(t_vec *v, char *line)
 	free(names);
 }
 
-// void	add_neighbor(t_vec *v, char *line)
+// void	add_neighbor(t_hash *hash, char *line)
 // {
 // 	t_room	*room;
 // 	t_room	*neighbor;
@@ -102,9 +103,9 @@ void	add_neighbor(t_vec *v, char *line)
 // 	if (!room->neighbors)
 // 	{
 // 		FP("room[%s]'s neighbor is empty\n", room->name);
-// 		init_vector(room->neighbors);
+// 		init_hashtor(room->neighbors);
 // 		// push_back(room->neighbors, neighbor);
-// 		// room->neighbors = (t_vec *)malloc(sizeof(t_vec));
+// 		// room->neighbors = (t_hash *)malloc(sizeof(t_hash));
 // 		// room->neighbors->front = neighbor;
 // 		// room->neighbors->end = neighbor;
 // 	}
