@@ -6,7 +6,7 @@
 /*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 13:31:49 by hnam              #+#    #+#             */
-/*   Updated: 2019/06/24 17:39:55 by hnam             ###   ########.fr       */
+/*   Updated: 2019/06/26 22:33:20 by hnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,25 +16,13 @@
 # include "../lib/includes/ft_printf.h"
 # include "../lib/includes/libft.h"
 
+# define CAPACITY 100
+
 typedef struct		s_point
 {
 	int				x;
 	int				y;
 }					t_point;
-
-// typedef struct		s_neighbor
-// {
-// 	struct t_room	*neighbor;
-// 	int				cnt;
-// }					t_neigh;
-
-
-typedef struct		s_vector
-{
-	struct s_room	*front;
-	struct s_room	*end;
-	int				size;
-}					t_vec;
 
 typedef struct		s_room
 {
@@ -43,39 +31,46 @@ typedef struct		s_room
 	int				is_start;
 	int				is_end;
 	int				n_ant;
-	struct s_room	**connected;
-	// t_vec			*neighbors;
-	struct s_room	*next;
+	struct s_queue	*neighbors;
 }					t_room;
 
-typedef struct		s_lem_in
+typedef struct		s_node
 {
-	int				n_ants;
-	t_room			*rooms;
-	char			*passed;
-}					t_li;
+	int				key;
+	t_room			*room;
+	struct s_node	*next;
+}					t_node;
 
-int					initialize_data(t_vec *v, int fd);
+typedef struct		s_hash
+{
+	t_node			**n;
+	int				capacity;
+}					t_hash;
+
+typedef struct		s_queue
+{
+	t_node			*front;
+	t_node			*end;
+	int				size;
+}					t_queue;
+
+int					initialize_data(t_hash *hash);
 t_room				*init_room(char *line, int is_start, int is_end);
-void				init_connected(t_vec *v, t_room *room, t_room *neighbor);
+void				add_room(t_hash *hash, char *line, int is_start, int is_end);
+void				add_neighbor(t_hash *hash, char *line);
 
-int					read_data(char *line);
-void				add_room(t_vec *v, char *line, int is_start, int is_end);
-void				add_neighbor(t_vec *v, char *line);
-int		check_existed(t_room *room, char *name);
+t_queue				*init_queue();
+void				push_end(t_queue *queue, t_room *room);
+t_room				*pop_front(t_queue *queue);
+void				free_queue(t_queue *queue);
 
+t_hash				*init_hash(int capacity);
+int					get_hash(char *key, int capacity);
+void				hash_insert(t_hash *hash, t_room *room);
+t_room				*hash_find(t_hash *hash, char *key);
+void				free_hash(t_hash *hash);
 
-t_vec				*init_vector();
-void				push_back(t_vec *v, t_room *room);
-t_room				*pop_back(t_vec *v);
-void				insert(t_vec *v, t_room *room);
-t_room				*erase(t_vec *v);
-t_room				*get(t_vec *v, int idx);
-t_room				*get_by_name(t_vec *v, char *name);
-int					empty(t_vec *v);
-int					size(t_vec *v);
-
-void	print_vec(t_vec	*v);
+void				print_hash(t_hash	*hash);
 
 
 #endif
