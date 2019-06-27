@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   hash.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/06/26 22:29:23 by hnam              #+#    #+#             */
+/*   Updated: 2019/06/26 22:29:43 by hnam             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "lem_in.h"
 
 t_hash	*init_hash(int capacity)
@@ -55,12 +67,14 @@ t_room	*hash_find(t_hash *hash, char *key)
 	t_node	*node;
 
 	k = get_hash(key, hash->capacity);
-	node = hash->n[k];
+	if (!(node = hash->n[k]))
+		return (NULL);
 	if (!ft_strcmp(node->room->name, key))
 		return (node->room);
 	while ((node = node->next))
 		if (!ft_strcmp(node->room->name, key))
 			return (node->room);
+	return (NULL);
 }
 
 void	free_hash(t_hash *hash)
@@ -76,13 +90,12 @@ void	free_hash(t_hash *hash)
 		while (node)
 		{
 			free(node->room->name);
-			// free(tmp->room->neighbors);
+			node->room->neighbors ? free_queue(node->room->neighbors) : 0;
 			free(node->room);
 			tmp = node;
 			node = node->next;
 			free(tmp);
 		}
-		free(hash->n[i]);
 	}
 	free(hash->n);
 	free(hash);

@@ -1,36 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   read.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/06/26 22:29:29 by hnam              #+#    #+#             */
+/*   Updated: 2019/06/26 22:29:29 by hnam             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "lem_in.h"
 
-int		initialize_data(t_hash *hash, int fd)
-{
-	char	*line;
-	int		is_start;
-	int		is_ant_num;
-
-	line = NULL;
-	is_ant_num = 0;
-	while (get_next_line(fd, &line) > 0)
-	{
-		if (!ft_strcmp(line, "##start") || !ft_strcmp(line, "##end"))
-		{
-			is_start = ft_strcmp(line, "##start") == 0 ? 1 : 0;
-			free(line);
-			get_next_line(fd, &line);
-			is_start ? add_room(v, line, 1, 0) : add_room(v, line, 0, 1);
-		}
-		else if (ft_strchr(line, '#'))
-			FP("[comment] %s\n", line);
-		else if (ft_strchr(line, ' '))
-			add_room(v, line, 0, 0);
-		else if (ft_strchr(line, '-'))
-			break;
-			// add_neighbor(v, line);
-		free(line);
-	}
-	print_hash(v);
-	return (0);
-}
 /*
-* int	read_data(char *line)
+* int	initialize_data(t_hash *hash)
 *
 * number_of_ants -> first line
 * comments -> start with #
@@ -38,6 +21,35 @@ int		initialize_data(t_hash *hash, int fd)
 * room -> name loc_x lox_y (3 information seperated with space)
 * link -> two rooms name is connected with '-'
 */
+
+int		initialize_data(t_hash *hash)
+{
+	char	*line;
+	int		is_start;
+	int		is_ant_num;
+
+	line = NULL;
+	is_ant_num = 0;
+	while (get_next_line(STDIN_FILENO, &line) > 0)
+	{
+		if (!ft_strcmp(line, "##start") || !ft_strcmp(line, "##end"))
+		{
+			is_start = ft_strcmp(line, "##start") == 0 ? 1 : 0;
+			free(line);
+			get_next_line(STDIN_FILENO, &line);
+			is_start ? add_room(hash, line, 1, 0) : add_room(hash, line, 0, 1);
+		}
+		else if (ft_strchr(line, '#'))
+			FP("[comment] %s\n", line);
+		else if (ft_strchr(line, ' '))
+			add_room(hash, line, 0, 0);
+		else if (ft_strchr(line, '-'))
+			add_neighbor(hash, line);
+		free(line);
+	}
+	print_hash(hash);
+	return (0);
+}
 
 /*
 **Input Redirection (" < ")
@@ -51,16 +63,35 @@ int		initialize_data(t_hash *hash, int fd)
 *just read the standard input is enough
 *https://www.tutorialspoint.com/unix/unix-io-redirections.htm
 */
+
+t_room	*init_room(char *line, int is_start, int is_end)
+{
+	t_room	*room;
+	char	**info;
+	int		i;
+
+	if(!(room = (t_room *)malloc(sizeof(t_room))))
+		return NULL;
+	info = ft_strsplit(line, ' ');
+	room->name = ft_strdup(info[0]);
+	room->point.x = ft_atoi(info[1]);
+	room->point.y = ft_atoi(info[2]);
+	room->is_start = is_start;
+	room->is_end = is_end;
+	room->neighbors = NULL;
+	i = -1;
+	while (info[++i])
+		free(info[i]);
+	free(info);
+	return (room);
+}
+
 void	add_room(t_hash *hash, char *line, int is_start, int is_end)
 {
 	t_room	*room;
 
-	// if (ft_strchr(line, ' '))
 	room = init_room(line, is_start, is_end);
-	if (is_start)
-		insert(v, room);
-	else
-		push_back(v, room);
+	hash_insert(hash, room);
 }
 
 void	add_neighbor(t_hash *hash, char *line)
@@ -71,55 +102,15 @@ void	add_neighbor(t_hash *hash, char *line)
 	int		i;
 
 	names = ft_strsplit(line, '-');
-	if (!(room = get_by_name(v, names[0])))
+	if (!(room = hash_find(hash, names[0])))
 		return ;
-	if (!(neigbor = get_by_name(v, names[1])))
+	if (!(neigbor = hash_find(hash, names[1])))
 		return ;
-	if (!room->connected)
-		init_connected(v, room, neigbor);
-	else if (!check_existed(room, neigbor->name))
-	{
-		i = 0;
-		while (room->connected[i])
-			i++;
-		room->connected[i] = neigbor;
-	}
+	if (!room->neighbors)
+		room->neighbors = init_queue();
+	push_end(room->neighbors, neigbor);
 	i = -1;
 	while (names[++i])
 		free(names[i]);
 	free(names);
 }
-
-// void	add_neighbor(t_hash *hash, char *line)
-// {
-// 	t_room	*room;
-// 	t_room	*neighbor;
-// 	char	**names;
-// 	int		i;
-
-// 	names = ft_strsplit(line, '-');
-// 	room = get_by_name(v, names[0]);
-// 	neighbor = ft_memalloc(sizeof(t_room));
-// 	if (!room->neighbors)
-// 	{
-// 		FP("room[%s]'s neighbor is empty\n", room->name);
-// 		init_hashtor(room->neighbors);
-// 		// push_back(room->neighbors, neighbor);
-// 		// room->neighbors = (t_hash *)malloc(sizeof(t_hash));
-// 		// room->neighbors->front = neighbor;
-// 		// room->neighbors->end = neighbor;
-// 	}
-// 	// elsm
-// 	FP("try to add neighbor[%s]\n", neighbor->name);
-// 		push_back(room->neighbors, neighbor);
-// 	// else
-// 	// {
-// 	// 	room->neighbors->end->next = neighbor;
-// 	// 	room->neighbors->end = neighbor;
-// 	// }
-// 	i = -1;
-// 	while (names[++i])
-// 		free(names[i]);
-// 	free(names);
-// }
-

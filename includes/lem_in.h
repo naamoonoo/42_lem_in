@@ -6,7 +6,7 @@
 /*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 13:31:49 by hnam              #+#    #+#             */
-/*   Updated: 2019/06/26 18:40:20 by hnam             ###   ########.fr       */
+/*   Updated: 2019/06/26 22:33:20 by hnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # include "../lib/includes/ft_printf.h"
 # include "../lib/includes/libft.h"
+
+# define CAPACITY 100
 
 typedef struct		s_point
 {
@@ -29,7 +31,7 @@ typedef struct		s_room
 	int				is_start;
 	int				is_end;
 	int				n_ant;
-	struct s_hash	*neighbors;
+	struct s_queue	*neighbors;
 }					t_room;
 
 typedef struct		s_node
@@ -52,39 +54,23 @@ typedef struct		s_queue
 	int				size;
 }					t_queue;
 
-typedef struct		s_lem_in
-{
-	int				n_ants;
-	t_room			*rooms;
-	char			*passed;
-}					t_li;
-
-int					initialize_data(t_hash *hash, int fd);
+int					initialize_data(t_hash *hash);
 t_room				*init_room(char *line, int is_start, int is_end);
-void				init_connected(t_hash *hash, t_room *room, t_room *neighbor);
-
-int					read_data(char *line);
 void				add_room(t_hash *hash, char *line, int is_start, int is_end);
 void				add_neighbor(t_hash *hash, char *line);
-int		check_existed(t_room *room, char *name);
 
+t_queue				*init_queue();
+void				push_end(t_queue *queue, t_room *room);
+t_room				*pop_front(t_queue *queue);
+void				free_queue(t_queue *queue);
 
-// t_hash		hash();
-// void				push_back(t_hash *hash, t_room *room);
-// t_room				*pop_back(t_hash *hash);
-// void				insert(t_hash *hash, t_room *room);
-// t_room				*erase(t_hash *hash);
-// t_room				*get(t_hash *hash, int idx);
-// t_room				*get_by_name(t_hash *hash, char *name);
-// int					empty(t_hash *hash);
-// int					size(t_hash *hash);
+t_hash				*init_hash(int capacity);
+int					get_hash(char *key, int capacity);
+void				hash_insert(t_hash *hash, t_room *room);
+t_room				*hash_find(t_hash *hash, char *key);
+void				free_hash(t_hash *hash);
 
-t_queue	*init_queue();
-void	push_end(t_queue *queue, t_room *room);
-t_room	*pop_front(t_queue *queue);
-
-
-void	print_hash(t_hash	*hash);
+void				print_hash(t_hash	*hash);
 
 
 #endif
