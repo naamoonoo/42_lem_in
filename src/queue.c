@@ -6,7 +6,7 @@
 /*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 22:29:27 by hnam              #+#    #+#             */
-/*   Updated: 2019/06/26 23:44:37 by hnam             ###   ########.fr       */
+/*   Updated: 2019/06/27 12:46:32 by hnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ t_queue	*init_queue()
 		return NULL;
 	queue->front = NULL;
 	queue->end = NULL;
-	queue->size = 0;
 	return (queue);
 }
 
@@ -43,7 +42,6 @@ void	enqueue(t_queue *queue, t_room *room)
 		queue->end->next = node;
 		queue->end = node;
 	}
-	queue->size += 1;
 }
 
 t_room	*dequeue(t_queue *queue)
@@ -60,14 +58,6 @@ t_room	*dequeue(t_queue *queue)
 	room = tmp->room;
 	free(tmp);
 	return room;
-}
-
-void	extend_queue(t_queue *queue, t_queue *add)
-{
-	if (!queue->front)
-		queue->front = add->front;
-	else
-		queue->end = add->front;
 }
 
 void	free_queue(t_queue *queue)

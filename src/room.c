@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   read.c                                             :+:      :+:    :+:   */
+/*   room.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 22:29:29 by hnam              #+#    #+#             */
-/*   Updated: 2019/06/27 00:18:33 by hnam             ###   ########.fr       */
+/*   Updated: 2019/06/27 12:03:51 by hnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ t_room	*init_room(char *line, int is_start, int is_end)
 	room->point.y = ft_atoi(info[2]);
 	room->is_start = is_start;
 	room->is_end = is_end;
+	room->is_valid = 0;
 	room->neighbors = NULL;
 	i = -1;
 	while (info[++i])
