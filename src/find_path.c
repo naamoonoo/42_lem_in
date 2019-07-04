@@ -22,6 +22,7 @@ int print_moves(t_move *moves, int n)
 			ft_printf(" ");
 		ft_printf("L%d-%s", moves->ant, moves->dest);
 	}
+	ft_printf("\n");
 }
 
 void	algo(t_hash *hash)
@@ -34,9 +35,12 @@ void	algo(t_hash *hash)
 
 	queue = init_queue();
 	enqueue(queue, hash->start);
+	count = queue->size;
 	while (!is_empty(queue))
 	{
 		room = dequeue(queue);
+		if (!--count && !room->is_start)
+			print_moves(moves, count);
 		n = room->n_ant < room->neighbors->size ? room->n_ant : room->neighbors->size;
 		while (n-- > 0)
 		{
@@ -45,16 +49,13 @@ void	algo(t_hash *hash)
 			if (!nextRoom->is_end)
 			{
 				enqueue(queue, nextRoom);
-				count++;
 			}
 		}
 		if (has_ants(room))
 		{
 			enqueue(queue, room);
-			if (!room->is_start)
-				count++;
 		}
-		
+
 	}
 	free_queue(queue);
 }
