@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lem_in.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 13:31:49 by hnam              #+#    #+#             */
-/*   Updated: 2019/06/27 19:55:09 by hnam             ###   ########.fr       */
+/*   Updated: 2019/07/04 01:33:02 by smbaabu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,30 +51,29 @@ typedef struct		s_hash
 
 typedef struct		s_queue
 {
+	int				size;
 	t_node			*front;
 	t_node			*end;
 }					t_queue;
 
-typedef struct		s_stack
+typedef struct		s_move
 {
-	t_node			*top;
-}					t_stack;
+	char			*dest;
+	int				ant;
+}					t_move;
 
-int					initialize_data(t_hash *hash);
 t_room				*init_room(char *line, int is_start, int is_end);
+int					initialize_data(t_hash *hash);
 void				add_room(t_hash *hash, char *line, int is_start, int is_end);
 void				add_neighbor(t_hash *hash, char *line);
 void				enqueue_neighbor(t_room *room, t_room *neighbor);
 
+int					is_empty(t_queue *queue);
 t_queue				*init_queue();
 void				enqueue(t_queue *queue, t_room *room);
 t_room				*dequeue(t_queue *queue);
 void				free_queue(t_queue *queue);
-
-// t_stack				*init_stack();
-// void				push(t_stack *stack, t_room *room);
-// t_room				*pop(t_stack *stack);
-// void				free_stack(t_stack *stack);
+// int					contains(t_queue *queue, t_room *room);
 
 t_hash				*init_hash(int capacity);
 int					get_hash(char *key, int capacity);
@@ -82,12 +81,9 @@ void				hash_insert(t_hash *hash, t_room *room);
 t_room				*hash_find(t_hash *hash, char *key);
 void				free_hash(t_hash *hash);
 
-void				print_hash(t_hash	*hash);
+void 				algo(t_hash *hash);
 
-void	bfs_algo(t_hash *hash);
-void	dup_handle_q(t_hash *unique, t_queue *neighbor, t_queue *que);
-void	dfs_algo(t_room *start);
-void	dup_handle_s(t_hash *unique, t_queue *neighbor, t_stack *stk);
+void				print_hash(t_hash	*hash);
 
 
 

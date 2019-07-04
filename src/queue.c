@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   queue.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 22:29:27 by hnam              #+#    #+#             */
-/*   Updated: 2019/06/27 12:46:32 by hnam             ###   ########.fr       */
+/*   Updated: 2019/07/04 01:30:25 by smbaabu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ t_queue	*init_queue()
 		return NULL;
 	queue->front = NULL;
 	queue->end = NULL;
+	queue->size = 0;
 	return (queue);
 }
 
@@ -42,6 +43,7 @@ void	enqueue(t_queue *queue, t_room *room)
 		queue->end->next = node;
 		queue->end = node;
 	}
+	queue->size++;
 }
 
 t_room	*dequeue(t_queue *queue)
@@ -57,8 +59,26 @@ t_room	*dequeue(t_queue *queue)
 		queue->end = NULL;
 	room = tmp->room;
 	free(tmp);
+	queue->size--;
 	return room;
 }
+
+// int		contains(t_queue *queue, t_room *room)
+// {
+// 	t_node	*node;
+// 	t_node	*tmp;
+
+// 	if ((node = queue->front))
+// 	{
+// 		while (node)
+// 		{
+// 			if (node->room == room)
+// 				return 1;
+// 			node = node->next;
+// 		}
+// 	}
+// 	return 0;
+// }
 
 void	free_queue(t_queue *queue)
 {
@@ -75,4 +95,9 @@ void	free_queue(t_queue *queue)
 		}
 	}
 	free(queue);
+}
+
+int		is_empty(t_queue *queue)
+{
+	return !queue->front;
 }
