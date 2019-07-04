@@ -1,1 +1,9 @@
-.vscode
+*.o
+*.a
+*.gch
+*.out
+*.dSYM/
+.nfs*
+.vscode/
+.DS_Store
+._*

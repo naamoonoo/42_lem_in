@@ -1,7 +1,7 @@
 NAME	=	lem_in
 
 CC		=	gcc
-CFLAGS	=	-Wall -Wextra -Werror -Iincludes -g -fsanitize=address
+CFLAGS	=	-Wall -Wextra -Werror -Iincludes -g
 # DEBUG	=	-g -fsanitize=address
 
 SRC		=	$(wildcard src/*.c)
