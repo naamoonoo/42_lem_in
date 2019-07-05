@@ -6,7 +6,7 @@
 /*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 22:29:27 by hnam              #+#    #+#             */
-/*   Updated: 2019/07/04 15:56:28 by hnam             ###   ########.fr       */
+/*   Updated: 2019/07/04 18:06:22 by hnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ void	free_queue(t_queue *queue)
 	free(queue);
 }
 
+//priority queue by length
 void	enqueue_by_order(t_queue *queue, t_room *room, int key)
 {
 	t_node	*node;
