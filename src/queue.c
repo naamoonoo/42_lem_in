@@ -6,7 +6,7 @@
 /*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 22:29:27 by hnam              #+#    #+#             */
-/*   Updated: 2019/06/27 12:46:32 by hnam             ###   ########.fr       */
+/*   Updated: 2019/07/04 15:56:28 by hnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,4 +75,34 @@ void	free_queue(t_queue *queue)
 		}
 	}
 	free(queue);
+}
+
+void	enqueue_by_order(t_queue *queue, t_room *room, int key)
+{
+	t_node	*node;
+	t_node	*tmp;
+
+	if (!(node = (t_node *)malloc(sizeof(t_node))))
+		return ;
+	node->room = room;
+	node->next = NULL;
+	node->key = key;
+	if (!queue->front || queue->front->key < key)
+	{
+		!queue->front ? (queue->end = node) : (node->next = queue->front);
+		queue->front = node;
+	}
+	else if (queue->end->key > key)
+	{
+		queue->end->next = node;
+		queue->end = node;
+	}
+	else
+	{
+		tmp = queue->front;
+		while (tmp->next && tmp->next->key > key)
+			tmp = tmp->next;
+		node->next = tmp->next;
+		tmp->next = node;
+	}
 }

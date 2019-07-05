@@ -6,7 +6,7 @@
 /*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 22:29:29 by hnam              #+#    #+#             */
-/*   Updated: 2019/06/27 12:03:51 by hnam             ###   ########.fr       */
+/*   Updated: 2019/07/04 17:18:16 by hnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,8 @@ int		initialize_data(t_hash *hash)
 {
 	char	*line;
 	int		is_start;
-	int		is_ant_num;
 
 	line = NULL;
-	is_ant_num = 0;
 	while (get_next_line(STDIN_FILENO, &line) > 0)
 	{
 		if (!ft_strcmp(line, "##start") || !ft_strcmp(line, "##end"))
@@ -39,6 +37,8 @@ int		initialize_data(t_hash *hash)
 			get_next_line(STDIN_FILENO, &line);
 			is_start ? add_room(hash, line, 1, 0) : add_room(hash, line, 0, 1);
 		}
+		else if (!hash->ant_num && (int)ft_strlen(line) == ft_numlen(ft_atoi(line), 10))
+			hash->ant_num = ft_atoi(line);
 		else if (ft_strchr(line, '#'))
 			FP("[comment] %s\n", line);
 		else if (ft_strchr(line, ' '))
@@ -47,10 +47,9 @@ int		initialize_data(t_hash *hash)
 			add_neighbor(hash, line);
 		free(line);
 	}
-	print_hash(hash);
+
 	return (0);
 }
-
 /*
 **Input Redirection (" < ")
 *
@@ -80,6 +79,7 @@ t_room	*init_room(char *line, int is_start, int is_end)
 	room->is_end = is_end;
 	room->is_valid = 0;
 	room->neighbors = NULL;
+	room->length = 0;
 	i = -1;
 	while (info[++i])
 		free(info[i]);
@@ -95,13 +95,14 @@ void	add_room(t_hash *hash, char *line, int is_start, int is_end)
 	hash_insert(hash, room);
 	if (is_start)
 		hash->start = room;
+	if (is_end)
+		hash->end = room;
 }
 
 void	add_neighbor(t_hash *hash, char *line)
 {
 	t_room	*room;
 	t_room	*neighbor;
-	// t_node	*tmp;
 	char	**names;
 	int		i;
 

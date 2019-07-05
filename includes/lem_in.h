@@ -6,7 +6,7 @@
 /*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 13:31:49 by hnam              #+#    #+#             */
-/*   Updated: 2019/06/27 19:55:09 by hnam             ###   ########.fr       */
+/*   Updated: 2019/07/04 17:57:04 by hnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct		s_room
 	int				is_end;
 	int				is_valid;
 	int				n_ant;
+	int				length;
 	struct s_queue	*neighbors;
 }					t_room;
 
@@ -46,7 +47,9 @@ typedef struct		s_hash
 {
 	t_node			**n;
 	t_room			*start;
+	t_room			*end;
 	int				capacity;
+	int				ant_num;
 }					t_hash;
 
 typedef struct		s_queue
@@ -68,6 +71,7 @@ void				enqueue_neighbor(t_room *room, t_room *neighbor);
 
 t_queue				*init_queue();
 void				enqueue(t_queue *queue, t_room *room);
+void				enqueue_by_order(t_queue *queue, t_room *room, int key);
 t_room				*dequeue(t_queue *queue);
 void				free_queue(t_queue *queue);
 
@@ -80,14 +84,17 @@ t_hash				*init_hash(int capacity);
 int					get_hash(char *key, int capacity);
 void				hash_insert(t_hash *hash, t_room *room);
 t_room				*hash_find(t_hash *hash, char *key);
-void				free_hash(t_hash *hash);
+void				free_hash(t_hash *hash, int is_last);
 
 void				print_hash(t_hash	*hash);
 
 void	bfs_algo(t_hash *hash);
 void	dup_handle_q(t_hash *unique, t_queue *neighbor, t_queue *que);
-void	dfs_algo(t_room *start);
-void	dup_handle_s(t_hash *unique, t_queue *neighbor, t_stack *stk);
+void	path_counter(t_room *room);
+void	put_ant(t_room *room);
+void	find_path(t_hash *hash);
+// void	dfs_algo(t_room *start);
+// void	dup_handle_s(t_hash *unique, t_queue *neighbor, t_stack *stk);
 
 
 
