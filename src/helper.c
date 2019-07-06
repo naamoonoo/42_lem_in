@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   helper.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 22:29:20 by hnam              #+#    #+#             */
-/*   Updated: 2019/06/26 22:30:31 by hnam             ###   ########.fr       */
+/*   Updated: 2019/07/05 17:14:23 by smbaabu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-void	print_hash(t_hash	*hash)
+void	print_hash(t_hash *hash)
 {
 	t_node	*n;
 	t_node	*t;

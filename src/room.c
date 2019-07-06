@@ -6,63 +6,46 @@
 /*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 22:29:29 by hnam              #+#    #+#             */
-/*   Updated: 2019/07/03 22:51:55 by smbaabu          ###   ########.fr       */
+/*   Updated: 2019/07/05 17:59:20 by smbaabu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-/*
-* int	initialize_data(t_hash *hash)
-*
-* number_of_ants -> first line
-* comments -> start with #
-* start/end point -> start with ## and start/end
-* room -> name loc_x lox_y (3 information seperated with space)
-* link -> two rooms name is connected with '-'
-*/
-
 int		initialize_data(t_hash *hash)
 {
 	char	*line;
 	int		is_start;
-	int		is_ant_num;
+	int		no;
+	int		i;
 
 	line = NULL;
-	is_ant_num = 0;
+	i = 0;
 	while (get_next_line(STDIN_FILENO, &line) > 0)
 	{
-		if (!ft_strcmp(line, "##start") || !ft_strcmp(line, "##end"))
+		if (i == 0)
+			no = ft_atoi(line);
+		else if (!ft_strcmp(line, "##start") || !ft_strcmp(line, "##end"))
 		{
-			is_start = ft_strcmp(line, "##start") == 0 ? 1 : 0;
-			free(line);
+			is_start = !ft_strcmp(line, "##start");
 			get_next_line(STDIN_FILENO, &line);
 			is_start ? add_room(hash, line, 1, 0) : add_room(hash, line, 0, 1);
 		}
 		else if (ft_strchr(line, '#'))
 			FP("[comment] %s\n", line);
-		else if (ft_strchr(line, ' '))
+		else if (ft_strchr(line, ' ') && !ft_strchr(line, 'L'))
 			add_room(hash, line, 0, 0);
 		else if (ft_strchr(line, '-'))
 			add_neighbor(hash, line);
+		else
+			exit_error("non-compiliant line");
 		free(line);
+		i++;
 	}
+	start_ants(hash->start->ants, no);
 	print_hash(hash);
 	return (0);
 }
-
-/*
-**Input Redirection (" < ")
-*
-*Just as the output of a command can be redirected to a
-*file, the less-than character < is used to redirect the
-*input of a command.
-*
-*Instead of open the files as an argument, redirected file
-*is automatically opened and comes as standard input. so,
-*just read the standard input is enough
-*https://www.tutorialspoint.com/unix/unix-io-redirections.htm
-*/
 
 t_room	*init_room(char *line, int is_start, int is_end)
 {
@@ -80,6 +63,7 @@ t_room	*init_room(char *line, int is_start, int is_end)
 	room->is_end = is_end;
 	room->is_valid = 0;
 	room->neighbors = NULL;
+	room->ants = init_ants();
 	i = -1;
 	while (info[++i])
 		free(info[i]);

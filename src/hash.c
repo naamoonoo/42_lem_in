@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hash.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 22:29:23 by hnam              #+#    #+#             */
-/*   Updated: 2019/06/27 00:03:45 by hnam             ###   ########.fr       */
+/*   Updated: 2019/07/05 16:38:39 by smbaabu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,7 @@ t_hash	*init_hash(int capacity)
 	t_hash	*hash;
 	int		i;
 
-	if(!(hash = (t_hash *)malloc(sizeof(t_hash))))
-		return (NULL);
+	hash = malloc(sizeof(t_hash));
 	if (!(hash->n = (t_node **)malloc(sizeof(t_node *) * capacity)))
 		return (NULL);
 	i = 0;
@@ -33,8 +32,8 @@ int		get_hash(char *key, int capacity)
 	int	res;
 	int	i;
 
-	i = -1;
 	res = 0;
+	i = -1;
 	while (key[++i])
 		res = (int)key[i] * i;
 	return (res % capacity);
