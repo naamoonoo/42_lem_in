@@ -6,7 +6,7 @@
 /*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 22:29:20 by hnam              #+#    #+#             */
-/*   Updated: 2019/07/06 23:55:01 by hnam             ###   ########.fr       */
+/*   Updated: 2019/07/07 00:50:09 by hnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,18 @@ void	hash_default_set(t_hash *hash)
 			n = n->next;
 		}
 	}
+}
+
+int		is_error(t_hash *hash)
+{
+	int error;
+
+	error = 0;
+	if (!hash->size || !hash->ant_num || !hash->start || !hash->end)
+		error = 1;
+	if (!bfs_algo(hash))
+		error = 1;
+	if (error)
+		FP("ERROR\n");
+	return (error);
 }

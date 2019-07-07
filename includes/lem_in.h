@@ -6,7 +6,7 @@
 /*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 13:31:49 by hnam              #+#    #+#             */
-/*   Updated: 2019/07/06 21:35:38 by hnam             ###   ########.fr       */
+/*   Updated: 2019/07/07 00:49:14 by hnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,10 @@ void				enqueue_by_order(t_queue *queue, t_room *room, int key);
 t_room				*dequeue(t_queue *queue);
 void				free_queue(t_queue *queue);
 
-// t_stack				*init_stack();
-// void				push(t_stack *stack, t_room *room);
-// t_room				*pop(t_stack *stack);
-// void				free_stack(t_stack *stack);
+t_stack 			*init_stack(void);
+t_room				*pop(t_stack *stack);
+void				push(t_stack *stack, t_room *room);
+void				free_stack(t_stack *stack);
 
 t_hash				*init_hash(int capacity);
 int					get_hash(char *key, int capacity);
@@ -91,25 +91,22 @@ void				hash_insert(t_hash *hash, t_room *room);
 t_room				*hash_find(t_hash *hash, char *key);
 void				free_hash(t_hash *hash, int is_last);
 
+
+int					bfs_algo(t_hash *hash);
+void				dup_handle_q(t_hash *unique, t_queue *neighbor, t_queue *que);
+
+
+t_queue				**get_paths(t_hash *hash);
+t_queue				*find_path(t_hash *hash, t_room *start);
+t_queue				*path_make(t_hash *hash);
+void				daijkstra(t_hash *unique, t_queue *neighbor, t_queue *que, t_room *parent);
+
+void				hash_default_set(t_hash *hash);
+int					is_error(t_hash *hash);
+
+
 void				print_hash(t_hash	*hash);
 
-void	bfs_algo(t_hash *hash);
-// void	dup_handle_q(t_hash *unique, t_queue *neighbor, t_queue *que);
-void	path_counter(t_room *room);
-void	put_ant(t_room *room);
-
-t_queue	**get_paths(t_hash *hash);
-t_queue	*find_path(t_hash *hash, t_room *start);
-t_queue	*path_make(t_hash *hash);
-
-void	dup_handle_q(t_hash *unique, t_queue *neighbor, t_queue *que, t_room *parent);
-void	hash_default_set(t_hash *hash);
-
-t_stack *init_stack(void);
-t_room	*pop(t_stack *stack);
-void	push(t_stack *stack, t_room *room);
-// void	dfs_algo(t_room *start);
-// void	dup_handle_s(t_hash *unique, t_queue *neighbor, t_stack *stk);
 
 
 
