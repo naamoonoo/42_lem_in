@@ -6,7 +6,7 @@
 /*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 22:29:23 by hnam              #+#    #+#             */
-/*   Updated: 2019/07/04 16:18:19 by hnam             ###   ########.fr       */
+/*   Updated: 2019/07/06 21:06:22 by hnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ t_hash	*init_hash(int capacity)
 	hash->ant_num = 0;
 	hash->start = NULL;
 	hash->end = NULL;
+	hash->size = 0;
 	return (hash);
 }
 
@@ -53,6 +54,8 @@ void	hash_insert(t_hash *hash, t_room *room)
 	node->key = get_hash(room->name, hash->capacity);
 	node->room = room;
 	node->next = NULL;
+	// node->prev = NULL;
+	// node->length = INT_MAX;
 	if (!hash->n[node->key])
 		hash->n[node->key] = node;
 	else
@@ -62,6 +65,7 @@ void	hash_insert(t_hash *hash, t_room *room)
 			tmp = tmp->next;
 		tmp->next = node;
 	}
+	hash->size += 1;
 }
 
 t_room	*hash_find(t_hash *hash, char *key)

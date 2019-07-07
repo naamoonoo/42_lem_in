@@ -1,60 +1,108 @@
-// #include "lem_in.h"
+#include "lem_in.h"
 
-// void	path_counter(t_room *room)
-// {
-// 	t_node	*nb;
+t_queue	**get_paths(t_hash *hash)
+{
+	t_queue	**paths;
 
-// 	if (room->is_end)
-// 		return ;
-// 	if (room->neighbors && (nb = room->neighbors->front))
-// 	{
-// 		while (nb)
-// 		{
-// 			path_counter(nb->room);
-// 			if (nb->room->is_end)
-// 				room->length = 1;
-// 			nb = nb->next;
-// 		}
-// 	}
-// }
+	t_node	*start;
+	int		idx;
 
-// void	bfs_algo(t_hash *hash)
-// {
-// 	t_queue	*que;
-// 	t_hash	*unique;
-// 	t_room	*room;
+	if (!(paths = (t_queue **)malloc(sizeof(t_queue *)
+		* hash->start->neighbors->size)))
+		return (NULL);
+	idx = 0;
+	start = hash->start->neighbors->front;
+	while (idx < hash->start->neighbors->size)
+	{
+		hash_default_set(hash);
+		start->room->length = 1;
+		start->room->prev = hash->start;
+		paths[idx++] = find_path(hash, start->room);
+		start = start->next;
+		// if (hash->end->prev)
+		// 	FP("last len %d\t prev : %s\n", hash->end->length, hash->end->prev->name);
+	}
+	return (paths);
+}
 
-// 	que = init_queue();
-// 	unique = init_hash(CAPACITY);
-// 	enqueue(que, hash->start);
-// 	hash_insert(unique, hash->start);
-// 	FP("start from %s\n", hash->start->name);
-// 	while (que->front)
-// 	{
-// 		room = dequeue(que);
-// 		FP("%s-", room->name);
-// 		if (room->is_end)
-// 			break;
-// 		dup_handle_q(unique, room->neighbors, que);
-// 	}
-// 	room->is_end ? FP("reached\n") : FP("not reached\n");
-// 	free_queue(que);
-// 	free_hash(unique, 0);
-// }
+t_queue	*find_path(t_hash *hash, t_room *start)
+{
+	t_queue	*que;
+	t_hash	*unique;
+	t_room	*room;
 
-// void	dup_handle_q(t_hash *unique, t_queue *neighbor, t_queue *que)
-// {
-// 	t_node	*node;
+	que = init_queue();
+	unique = init_hash(hash->size);
+	enqueue(que, start);
+	hash_insert(unique, start);
+	while (que->front)
+	{
+		room = dequeue(que);
+		dup_handle_q(unique, room->neighbors, que, room);
+	}
+	free_queue(que);
+	free_hash(unique, 0);
+	return path_make(hash);
+}
 
-// 	if (!(node = neighbor->front))
-// 		return ;
-// 	while (node)
-// 	{
-// 		if (!hash_find(unique, node->room->name))
-// 		{
-// 			hash_insert(unique, node->room);
-// 			enqueue(que, node->room);
-// 		}
-// 		node = node->next;
-// 	}
-// }
+void	dup_handle_q(t_hash *unique, t_queue *neighbor, t_queue *que, t_room *parent)
+{
+	t_node	*node;
+
+	if (!(node = neighbor->front))
+		return ;
+	while (node)
+	{
+		if (!hash_find(unique, node->room->name)
+			&& node->room->length >= parent->length + 1 &&
+			node->room->is_valid == 0 &&
+			node->room->length != 1)
+		{
+			node->room->length = parent->length + 1;
+			node->room->prev = parent;
+			node->room->is_end ? 0 : hash_insert(unique, node->room);
+			enqueue(que, node->room);
+		}
+		// node not in start's neighbor
+		// node not in unique
+		// node's length > parent's node + 1
+		// ====> node->prev = parent && length = parent->length + 1
+		node = node->next;
+	}
+}
+
+t_queue	*path_make(t_hash *hash)
+{
+	t_stack	*stk;
+	t_queue	*que;
+	t_room	*room;
+
+	if (!hash->end->prev)
+		return (NULL);
+	stk = init_stack();
+	que = init_queue();
+	push(stk, hash->end);
+	while (stk->top->room != hash->start)
+	{
+		push(stk, stk->top->room->prev);
+	}
+	while (stk->top)
+	{
+		room = pop(stk);
+		room->is_end ? 0 : (room->is_valid = 1);
+		enqueue(que, room);
+	}
+	// free(stk);
+
+	//
+	t_node	*node = que->front;
+	FP("[len : %d]\t", que->size);
+	while (node)
+	{
+		FP("%s ", node->room->name);
+		node = node->next;
+	}
+	FP("\n");
+	//
+	return (que);
+}
