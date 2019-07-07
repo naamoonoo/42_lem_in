@@ -6,7 +6,7 @@
 /*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 13:31:49 by hnam              #+#    #+#             */
-/*   Updated: 2019/07/04 17:57:04 by hnam             ###   ########.fr       */
+/*   Updated: 2019/07/06 21:35:38 by hnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef struct		s_room
 	int				is_valid;
 	int				n_ant;
 	int				length;
+	struct s_room	*prev;
 	struct s_queue	*neighbors;
 }					t_room;
 
@@ -41,6 +42,8 @@ typedef struct		s_node
 	int				key;
 	t_room			*room;
 	struct s_node	*next;
+	// struct s_node	*prev;
+	// int				length;
 }					t_node;
 
 typedef struct		s_hash
@@ -50,12 +53,14 @@ typedef struct		s_hash
 	t_room			*end;
 	int				capacity;
 	int				ant_num;
+	int				size;
 }					t_hash;
 
 typedef struct		s_queue
 {
 	t_node			*front;
 	t_node			*end;
+	int				size;
 }					t_queue;
 
 typedef struct		s_stack
@@ -89,10 +94,20 @@ void				free_hash(t_hash *hash, int is_last);
 void				print_hash(t_hash	*hash);
 
 void	bfs_algo(t_hash *hash);
-void	dup_handle_q(t_hash *unique, t_queue *neighbor, t_queue *que);
+// void	dup_handle_q(t_hash *unique, t_queue *neighbor, t_queue *que);
 void	path_counter(t_room *room);
 void	put_ant(t_room *room);
-void	find_path(t_hash *hash);
+
+t_queue	**get_paths(t_hash *hash);
+t_queue	*find_path(t_hash *hash, t_room *start);
+t_queue	*path_make(t_hash *hash);
+
+void	dup_handle_q(t_hash *unique, t_queue *neighbor, t_queue *que, t_room *parent);
+void	hash_default_set(t_hash *hash);
+
+t_stack *init_stack(void);
+t_room	*pop(t_stack *stack);
+void	push(t_stack *stack, t_room *room);
 // void	dfs_algo(t_room *start);
 // void	dup_handle_s(t_hash *unique, t_queue *neighbor, t_stack *stk);
 

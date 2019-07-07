@@ -6,7 +6,7 @@
 /*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 22:29:29 by hnam              #+#    #+#             */
-/*   Updated: 2019/07/04 17:18:16 by hnam             ###   ########.fr       */
+/*   Updated: 2019/07/06 21:06:12 by hnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ t_room	*init_room(char *line, int is_start, int is_end)
 	room->is_valid = 0;
 	room->neighbors = NULL;
 	room->length = 0;
+	room->prev = NULL;
 	i = -1;
 	while (info[++i])
 		free(info[i]);

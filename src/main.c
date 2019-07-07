@@ -6,7 +6,7 @@
 /*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 22:29:25 by hnam              #+#    #+#             */
-/*   Updated: 2019/07/04 17:15:59 by hnam             ###   ########.fr       */
+/*   Updated: 2019/07/07 00:06:19 by hnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,22 @@
 
 int	main()
 {
-	t_hash *hash;
+	t_hash	*hash;
+	t_queue	**paths;
+	int		idx;
 
 	hash = init_hash(CAPACITY);
 	initialize_data(hash);
 
-	// path_counter(hash->start);
+//
 	print_hash(hash);
+//
+	paths = get_paths(hash);
 
-	bfs_algo(hash);
-	// bfs_algo(hash);
-	// dfs_algo(hash->start);
+	idx = 0;
+	// while (idx < hash->size && paths[idx])
+	// 	free_queue(paths[idx++]);
+	// free(paths);
 	free_hash(hash, 1);
 
 	// while(1)

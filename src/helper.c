@@ -6,13 +6,13 @@
 /*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 22:29:20 by hnam              #+#    #+#             */
-/*   Updated: 2019/07/04 17:11:48 by hnam             ###   ########.fr       */
+/*   Updated: 2019/07/06 23:55:01 by hnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-void	print_hash(t_hash	*hash)
+void	print_hash(t_hash *hash)
 {
 	t_node	*n;
 	t_node	*t;
@@ -23,7 +23,7 @@ void	print_hash(t_hash	*hash)
 		n = hash->n[i];
 		while (n)
 		{
-			FP("[%s]-[len:%d](%d, %d) - %s%s[", n->room->name, n->room->length, n->room->point.x, n->room->point.y, n->room->is_end ? "(end)" : "", n->room->is_start ? "(start)" :"");
+			FP("[%s](%d, %d) - %s%s[", n->room->name, n->room->point.x, n->room->point.y, n->room->is_end ? "(end)" : "", n->room->is_start ? "(start)" :"");
 			t = n->room->neighbors ? n->room->neighbors->front : NULL;
 			while (t)
 			{
@@ -31,6 +31,24 @@ void	print_hash(t_hash	*hash)
 				t = t->next;
 			}
 			FP("]\n");
+			n = n->next;
+		}
+	}
+}
+
+void	hash_default_set(t_hash *hash)
+{
+	t_node	*n;
+	int		i;
+
+	i = -1;
+	while (++i < hash->capacity)
+	{
+		n = hash->n[i];
+		while (n)
+		{
+			n->room->length = INT_MAX;
+			n->room->prev = NULL;
 			n = n->next;
 		}
 	}
