@@ -6,7 +6,7 @@
 /*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 22:29:23 by hnam              #+#    #+#             */
-/*   Updated: 2019/07/06 21:06:22 by hnam             ###   ########.fr       */
+/*   Updated: 2019/07/07 00:45:04 by hnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,6 @@ void	hash_insert(t_hash *hash, t_room *room)
 	node->key = get_hash(room->name, hash->capacity);
 	node->room = room;
 	node->next = NULL;
-	// node->prev = NULL;
-	// node->length = INT_MAX;
 	if (!hash->n[node->key])
 		hash->n[node->key] = node;
 	else

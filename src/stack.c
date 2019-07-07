@@ -34,3 +34,20 @@ void	push(t_stack *stack, t_room *room)
 	node->next = stack->top;
 	stack->top = node;
 }
+
+void	free_stack(t_stack *stack)
+{
+	t_node	*node;
+	t_node	*tmp;
+
+	if ((node = stack->top))
+	{
+		while (node)
+		{
+			tmp = node;
+			node = node->next;
+			free(tmp);
+		}
+	}
+	free(stack);
+}
