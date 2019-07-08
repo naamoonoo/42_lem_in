@@ -6,7 +6,7 @@
 /*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 13:31:49 by hnam              #+#    #+#             */
-/*   Updated: 2019/07/07 23:52:32 by smbaabu          ###   ########.fr       */
+/*   Updated: 2019/07/08 00:14:29 by smbaabu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,6 @@ typedef struct		s_queue
 	t_node			*back;
 }					t_queue;
 
-typedef struct        s_stack
-{
-    t_node            *top;
-}                    t_stack;
-
 t_ants				*init_ants(void);
 void				add_ants(t_ants *ants, int no);
 int					remove_ants(t_ants *ants);
@@ -106,18 +101,12 @@ void				hash_insert(t_hash *hash, t_room *room);
 t_room				*hash_find(t_hash *hash, char *key);
 void				free_hash(t_hash *hash);
 
-t_stack             *init_stack(void);
-t_room                *pop(t_stack *stack);
-void                push(t_stack *stack, t_room *room);
-void                free_stack(t_stack *stack);
-
 void				exit_error(char *msg);
 t_ants				*create_ants(int n);
 int					move(t_room *from, t_room *to);
 void				print_move(int no, char *dst, int i);
 void				print_hash(t_hash	*hash);
 
-t_queue				**get_paths(t_hash *hash);
 void 				algo(t_hash *hash);
 
 #endif

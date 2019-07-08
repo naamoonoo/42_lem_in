@@ -1,3 +1,38 @@
+#include "lem-in.h"
+
+void	unique_paths(t_room *room, t_hash *visited)
+{
+	t_room	*neighbor;
+	int		i;
+	int		n;
+
+	n = room->neighbors->size;
+	i = 0;
+	while (i < n)
+	{
+		neighbor = next(room->neighbors);		
+		if (hash_find(visited, neighbor->name))
+		{
+			delete_queue(&room->neighbors, neighbor);
+		}
+		else if (!neighbor->is_end)
+		{
+			hash_insert(visited, neighbor);
+			unique_paths(neighbor, visited);
+		}
+		i++;
+	}
+	reset_queue(room->neighbors);
+}
+
+void	preprocess(t_hash *hash)
+{
+	t_hash	*visited;
+
+	make_directed(hash, hash->start);
+	visited = init_hash(CAPACITY);
+	unique_paths(hash->start, visited);
+}
 
 void	make_directed(t_hash *hash, t_room *from)
 {
