@@ -6,7 +6,7 @@
 /*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 15:36:34 by smbaabu           #+#    #+#             */
-/*   Updated: 2019/07/07 17:08:31 by smbaabu          ###   ########.fr       */
+/*   Updated: 2019/07/07 23:49:33 by smbaabu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	make_directed(t_hash *hash, t_room *from)
 	while (i < from->neighbors->size)
 	{
 		to = next(from->neighbors);
-		ft_printf("from %s -> to %s\n", from->name, to->name);
 		delete_queue(&to->neighbors, from);
 		if (!to->is_end)
 			make_directed(hash, to);
@@ -62,11 +61,6 @@ void	preprocess(t_hash *hash)
 	make_directed(hash, hash->start);
 	visited = init_hash(CAPACITY);
 	unique_paths(hash->start, visited);
-	// ft_printf("\n");
-	// print_hash(visited);
-	// ft_printf("\n");
-	// print_hash(hash);
-	// free_hash(visited);
 }
 
 void	handle_start(t_hash *hash, t_queue *queue)
@@ -113,13 +107,11 @@ void	algo(t_hash *hash)
 	while (!isempty_queue(queue))
 	{
 		i = -1;
-		// print_queue(queue);
 		n = queue->size;
 		while (++i < n)
 		{
 			room = dequeue(queue);
 			nextRoom = next(room->neighbors);
-			// ft_printf("nextRoom %s for %s\n", nextRoom->name, room->name);
 			no = move(room, nextRoom);
 			print_move(no, nextRoom->name, i);
 			if (!nextRoom->is_end)
