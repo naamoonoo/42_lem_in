@@ -6,7 +6,7 @@
 /*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 22:29:29 by hnam              #+#    #+#             */
-/*   Updated: 2019/07/06 23:27:32 by smbaabu          ###   ########.fr       */
+/*   Updated: 2019/07/07 21:47:57 by smbaabu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ int		initialize_data(t_hash *hash)
 		i++;
 	}
 	start_ants(hash->start->ants, no);
-	print_ants(hash->start->ants);
 	print_hash(hash);
 	return (0);
 }

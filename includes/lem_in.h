@@ -6,7 +6,7 @@
 /*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 13:31:49 by hnam              #+#    #+#             */
-/*   Updated: 2019/07/06 23:40:40 by smbaabu          ###   ########.fr       */
+/*   Updated: 2019/07/07 23:44:45 by smbaabu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ typedef struct		s_node
 	int				key;
 	t_room			*room;
 	struct s_node	*next;
-	int				is_valid;
 }					t_node;
 
 typedef struct		s_hash
@@ -106,6 +105,7 @@ int					move(t_room *from, t_room *to);
 void				print_move(int no, char *dst, int i);
 void				print_hash(t_hash	*hash);
 
+t_queue				**get_paths(t_hash *hash);
 void 				algo(t_hash *hash);
 
 #endif
