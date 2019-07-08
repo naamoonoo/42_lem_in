@@ -6,7 +6,7 @@
 /*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 22:29:23 by hnam              #+#    #+#             */
-/*   Updated: 2019/07/05 16:38:39 by smbaabu          ###   ########.fr       */
+/*   Updated: 2019/07/06 21:28:17 by smbaabu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,18 +60,18 @@ void	hash_insert(t_hash *hash, t_room *room)
 	}
 }
 
-t_room	*hash_find(t_hash *hash, char *key)
+t_room	*hash_find(t_hash *hash, char *name)
 {
 	int		k;
 	t_node	*node;
 
-	k = get_hash(key, hash->capacity);
+	k = get_hash(name, hash->capacity);
 	if (!(node = hash->n[k]))
 		return (NULL);
-	if (!ft_strcmp(node->room->name, key))
+	if (!ft_strcmp(node->room->name, name))
 		return (node->room);
 	while ((node = node->next))
-		if (!ft_strcmp(node->room->name, key))
+		if (!ft_strcmp(node->room->name, name))
 			return (node->room);
 	return (NULL);
 }

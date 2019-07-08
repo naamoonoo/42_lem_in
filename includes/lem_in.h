@@ -6,7 +6,7 @@
 /*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 13:31:49 by hnam              #+#    #+#             */
-/*   Updated: 2019/07/06 02:00:43 by smbaabu          ###   ########.fr       */
+/*   Updated: 2019/07/06 23:40:40 by smbaabu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ typedef struct		s_room
 	t_point			point;
 	int				is_start;
 	int				is_end;
-	int				is_valid;
 	struct s_ants	*ants;
 	struct s_queue	*neighbors;
 }					t_room;
@@ -53,6 +52,7 @@ typedef struct		s_node
 	int				key;
 	t_room			*room;
 	struct s_node	*next;
+	int				is_valid;
 }					t_node;
 
 typedef struct		s_hash
@@ -76,6 +76,7 @@ int					remove_ants(t_ants *ants);
 void				free_ants(t_ants *ants);
 int					isempty_ants(t_ants *ants);
 void				start_ants(t_ants *ants, int n);
+void				print_ants(t_ants *ants);
 
 t_room				*init_room(char *line, int is_start, int is_end);
 int					initialize_data(t_hash *hash);
@@ -88,8 +89,9 @@ void				enqueue(t_queue *queue, t_room *room);
 t_room				*dequeue(t_queue *queue);
 void				free_queue(t_queue *queue);
 int					isempty_queue(t_queue *queue);
-int					delete_queue(t_queue *queue, t_room *room);
+int					delete_queue(t_queue **queue, t_room *room);
 void				reset_queue(t_queue *queue);
+void				print_queue(t_queue *queue);
 t_room				*next(t_queue *queue);
 
 t_hash				*init_hash(int capacity);

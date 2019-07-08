@@ -6,7 +6,7 @@
 /*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 17:14:30 by smbaabu           #+#    #+#             */
-/*   Updated: 2019/07/05 20:17:19 by smbaabu          ###   ########.fr       */
+/*   Updated: 2019/07/06 23:27:50 by smbaabu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,23 @@ void	exit_error(char *msg)
 {
 	ft_putendl_fd(msg, STDERR_FILENO);
 	exit(1);
+}
+
+void	print_ants(t_ants *ants)
+{
+	t_ant	*ant;
+
+	if ((ant = ants->front))
+	{
+		while (ant)
+		{
+			if (ant != ants->front)
+				ft_putchar(' ');
+			ft_printf("%d", ant->no);
+			ant = ant->next;
+		}
+		ft_putchar('\n');
+	}
 }
 
 void	start_ants(t_ants *ants, int n)

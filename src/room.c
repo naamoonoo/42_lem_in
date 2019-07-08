@@ -6,7 +6,7 @@
 /*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 22:29:29 by hnam              #+#    #+#             */
-/*   Updated: 2019/07/05 17:59:20 by smbaabu          ###   ########.fr       */
+/*   Updated: 2019/07/06 23:27:32 by smbaabu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int		initialize_data(t_hash *hash)
 		i++;
 	}
 	start_ants(hash->start->ants, no);
+	print_ants(hash->start->ants);
 	print_hash(hash);
 	return (0);
 }
@@ -61,7 +62,6 @@ t_room	*init_room(char *line, int is_start, int is_end)
 	room->point.y = ft_atoi(info[2]);
 	room->is_start = is_start;
 	room->is_end = is_end;
-	room->is_valid = 0;
 	room->neighbors = NULL;
 	room->ants = init_ants();
 	i = -1;

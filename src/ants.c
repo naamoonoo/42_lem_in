@@ -6,7 +6,7 @@
 /*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 14:56:44 by smbaabu           #+#    #+#             */
-/*   Updated: 2019/07/05 17:43:29 by smbaabu          ###   ########.fr       */
+/*   Updated: 2019/07/06 23:18:49 by smbaabu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int		remove_ants(t_ants *ants)
 	if (!ants->front)
 		ants->back = NULL;
 	no = ant->no;
-	free(ant);
+	// free(ant);
 	ants->size--;
 	return (no);
 }
