@@ -6,7 +6,7 @@
 /*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 22:29:29 by hnam              #+#    #+#             */
-/*   Updated: 2019/07/07 21:47:57 by smbaabu          ###   ########.fr       */
+/*   Updated: 2019/07/08 21:36:29 by smbaabu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,9 @@ t_room	*init_room(char *line, int is_start, int is_end)
 	room->point.y = ft_atoi(info[2]);
 	room->is_start = is_start;
 	room->is_end = is_end;
+	room->prev = NULL;
+	room->n = 0;
+	room->visited = 0;
 	room->neighbors = NULL;
 	room->ants = init_ants();
 	i = -1;

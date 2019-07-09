@@ -6,7 +6,7 @@
 /*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 22:29:27 by hnam              #+#    #+#             */
-/*   Updated: 2019/07/07 16:50:16 by smbaabu          ###   ########.fr       */
+/*   Updated: 2019/07/08 23:28:02 by smbaabu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,22 @@ t_room	*dequeue(t_queue *queue)
 	return room;
 }
 
-t_room	*next(t_queue *queue)
+t_room	*next_queue_unvisited(t_queue *queue)
+{
+	t_room	*room;
+
+	room = NULL;
+	if (queue->front)
+		while ((room = next_queue(queue)) && room->visited)
+			;
+	return room;
+}
+
+t_room	*next_queue(t_queue *queue)
 {
 	t_node			*node;
 	int				i;
-	
+
 	if ((node = queue->front))
 	{
 		i = -1;

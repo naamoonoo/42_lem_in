@@ -6,7 +6,7 @@
 /*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 13:31:49 by hnam              #+#    #+#             */
-/*   Updated: 2019/07/08 00:14:29 by smbaabu          ###   ########.fr       */
+/*   Updated: 2019/07/08 23:26:34 by smbaabu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,9 @@ typedef struct		s_room
 	t_point			point;
 	int				is_start;
 	int				is_end;
-	int				length;
-	struct s_room    *prev;
+	int				n;
+	int				visited;
+	struct s_room	*prev;
 	struct s_ants	*ants;
 	struct s_queue	*neighbors;
 }					t_room;
@@ -93,7 +94,8 @@ int					isempty_queue(t_queue *queue);
 int					delete_queue(t_queue **queue, t_room *room);
 void				reset_queue(t_queue *queue);
 void				print_queue(t_queue *queue);
-t_room				*next(t_queue *queue);
+t_room				*next_queue(t_queue *queue);
+t_room				*next_queue_unvisited(t_queue *queue);
 
 t_hash				*init_hash(int capacity);
 int					get_hash(char *key, int capacity);
