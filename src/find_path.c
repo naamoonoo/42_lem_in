@@ -6,7 +6,7 @@
 /*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 15:36:34 by smbaabu           #+#    #+#             */
-/*   Updated: 2019/07/09 22:31:02 by smbaabu          ###   ########.fr       */
+/*   Updated: 2019/07/10 00:00:44 by smbaabu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,14 +65,31 @@ void	direct_to_start(t_hash *hash, t_room *neighbor)
 		if (hash_find(hash, neighbor->name))
 			return ;
 		if (!neighbor->is_start)
+		{
 			delete_except(neighbor, neighbor->prev, next);
-		if (!neighbor->is_start)
 			hash_insert(hash, neighbor);
+		}
 		delete_queue(&next->neighbors, neighbor);
 		n++;
 		if (!neighbor->is_start)
+		{
 			neighbor->n = n;
+			// ft_printf("%s size %d\n", neighbor->name, neighbor->n);
+		}
 	}
+}
+
+void	handle_end(t_hash *hash, t_room *room, t_room *neighbor)
+{
+	neighbor->prev = room;
+	direct_to_start(hash, neighbor);
+}
+
+void	visit(t_queue *queue, t_room *room, t_room *neighbor)
+{
+	neighbor->prev = room;
+	neighbor->visited = 1;
+	enqueue(queue, neighbor);
 }
 
 void	unique_paths(t_room *start)
@@ -96,16 +113,9 @@ void	unique_paths(t_room *start)
 			if (hash_find(hash, neighbor->name))
 				delete_to_start(neighbor);
 			else if (neighbor->is_end)
-			{
-				neighbor->prev = room;
-				direct_to_start(hash, neighbor);
-			}
+				handle_end(hash, room, neighbor);
 			else
-			{
-				neighbor->prev = room;
-				neighbor->visited = 1;
-				enqueue(queue, neighbor);
-			}
+				visit(queue, room, neighbor);
 			i++;
 		}
 		if (!i)
@@ -118,7 +128,6 @@ void	handle_start(t_hash *hash, t_queue *queue)
 {
 	t_room	*startRoom;
 	t_room	*nextRoom;
-	int		no;
 	int		n;
 	int		i;
 
@@ -126,11 +135,11 @@ void	handle_start(t_hash *hash, t_queue *queue)
 	n = startRoom->ants->size < startRoom->neighbors->size
 		? startRoom->ants->size : startRoom->neighbors->size;
 	i = 0;
+	sort_queue(startRoom->neighbors);
 	while (i < n)
 	{
 		nextRoom = next_queue(startRoom->neighbors);
-		no = move(startRoom, nextRoom);
-		print_move(no, nextRoom->name, i);
+		print_move(move(startRoom, nextRoom), nextRoom->name, i);
 		if (!nextRoom->is_end)
 			enqueue(queue, nextRoom);
 		i++;
@@ -149,7 +158,6 @@ void	algo(t_hash *hash)
 	t_room	*nextRoom;
 	t_queue	*queue;
 	int		i;
-	int		no;
 	int		n;
 
 	queue = init_queue();
@@ -163,8 +171,7 @@ void	algo(t_hash *hash)
 		{
 			room = dequeue(queue);
 			nextRoom = next_queue(room->neighbors);
-			no = move(room, nextRoom);
-			print_move(no, nextRoom->name, i);
+			print_move(move(room, nextRoom), nextRoom->name, i);
 			if (!nextRoom->is_end)
 				enqueue(queue, nextRoom);
 			if (!isempty_ants(room->ants))

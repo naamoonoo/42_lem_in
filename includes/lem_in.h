@@ -6,7 +6,7 @@
 /*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 13:31:49 by hnam              #+#    #+#             */
-/*   Updated: 2019/07/08 23:26:34 by smbaabu          ###   ########.fr       */
+/*   Updated: 2019/07/09 23:25:54 by smbaabu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ int					delete_queue(t_queue **queue, t_room *room);
 void				reset_queue(t_queue *queue);
 void				print_queue(t_queue *queue);
 t_room				*next_queue(t_queue *queue);
+void				sort_queue(t_queue *queue);
 t_room				*next_queue_unvisited(t_queue *queue);
 
 t_hash				*init_hash(int capacity);
