@@ -6,28 +6,11 @@
 /*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 15:36:34 by smbaabu           #+#    #+#             */
-/*   Updated: 2019/07/09 15:28:13 by smbaabu          ###   ########.fr       */
+/*   Updated: 2019/07/09 22:31:02 by smbaabu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
-
-void	delete_in_hash(t_hash *hash, t_room *room)
-{
-	t_node	*n;
-	int		i;
-
-	i = -1;
-	while (++i < hash->capacity)
-	{
-		n = hash->n[i];
-		while (n)
-		{
-			delete_queue(&n->room->neighbors, room);
-			n = n->next;
-		}
-	}
-}
 
 void	delete_to_start(t_room *neighbor)
 {
@@ -41,6 +24,33 @@ void	delete_to_start(t_room *neighbor)
 	}
 }
 
+void	delete_except(t_room *room, t_room *prev, t_room *next)
+{
+	t_node	*node;
+	t_room	*neighbor;
+	int		n;
+	int		i;
+
+	n = room->neighbors->size;
+	i = -1;
+	while (++i < n)
+	{
+		if ((node = room->neighbors->front))
+		{
+			while (node)
+			{
+				neighbor = node->room;
+				if (neighbor != prev && neighbor != next)
+				{
+					// ft_printf("deleting %s from %s\n", neighbor->name, room->name);
+					delete_queue(&room->neighbors, neighbor);
+				}
+				node = node->next;
+			}
+		}
+	}
+}
+
 void	direct_to_start(t_hash *hash, t_room *neighbor)
 {
 	t_room	*next;
@@ -51,19 +61,17 @@ void	direct_to_start(t_hash *hash, t_room *neighbor)
 	{
 		next = neighbor;
 		neighbor = neighbor->prev;
+		// ft_printf("%s<-%s\n", neighbor->name, next->name);
 		if (hash_find(hash, neighbor->name))
-		{
-			delete_queue(&neighbor->neighbors, next);
 			return ;
-		}
-		else
-		{
-			if (!neighbor->is_start)
-				hash_insert(hash, neighbor);
-			delete_queue(&next->neighbors, neighbor);
-		}
+		if (!neighbor->is_start)
+			delete_except(neighbor, neighbor->prev, next);
+		if (!neighbor->is_start)
+			hash_insert(hash, neighbor);
+		delete_queue(&next->neighbors, neighbor);
 		n++;
-		neighbor->n = n;
+		if (!neighbor->is_start)
+			neighbor->n = n;
 	}
 }
 
@@ -101,10 +109,7 @@ void	unique_paths(t_room *start)
 			i++;
 		}
 		if (!i)
-		{
 			delete_to_start(room);
-			delete_in_hash(hash, room);
-		}
 		reset_queue(room->neighbors);
 	}
 }
@@ -168,5 +173,4 @@ void	algo(t_hash *hash)
 		}
 		ft_printf("\n");
 	}
-	// free_queue(queue);
 }
