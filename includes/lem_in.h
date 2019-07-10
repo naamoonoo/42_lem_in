@@ -6,7 +6,7 @@
 /*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 13:31:49 by hnam              #+#    #+#             */
-/*   Updated: 2019/07/09 23:25:54 by smbaabu          ###   ########.fr       */
+/*   Updated: 2019/07/10 01:30:07 by smbaabu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef struct		s_hash
 {
 	t_node			**n;
 	t_room			*start;
+	t_room			*end;
 	int				capacity;
 }					t_hash;
 
@@ -102,14 +103,22 @@ t_hash				*init_hash(int capacity);
 int					get_hash(char *key, int capacity);
 void				hash_insert(t_hash *hash, t_room *room);
 t_room				*hash_find(t_hash *hash, char *key);
-void				free_hash(t_hash *hash);
+void				free_hash(t_hash *hash, int r);
 
 void				exit_error(char *msg);
 t_ants				*create_ants(int n);
-int					move(t_room *from, t_room *to);
+int					move_ants(t_room *from, t_room *to);
 void				print_move(int no, char *dst, int i);
 void				print_hash(t_hash	*hash);
 
 void 				algo(t_hash *hash);
+void				unique_paths(t_room *start);
+void				handle_start(t_hash *hash, t_queue *queue);
+void				direct_to_start(t_hash *hash, t_room *neighbor);
+
+void				delete_to_start(t_room *neighbor);
+void				delete_except(t_room *room, t_room *prev, t_room *next);
+void				handle_end(t_hash *hash, t_room *room, t_room *neighbor);
+void				visit(t_queue *queue, t_room *room, t_room *neighbor);
 
 #endif

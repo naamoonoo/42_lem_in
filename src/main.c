@@ -6,7 +6,7 @@
 /*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 22:29:25 by hnam              #+#    #+#             */
-/*   Updated: 2019/07/07 16:53:13 by smbaabu          ###   ########.fr       */
+/*   Updated: 2019/07/10 01:20:51 by smbaabu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,14 @@
 int	main(void)
 {
 	t_hash	*hash;
+	int		no;
 
 	hash = init_hash(CAPACITY);
-	initialize_data(hash);
+	// print_hash(hash);
+	no = initialize_data(hash);
+	start_ants(hash->start->ants, no);
 	algo(hash);
-	// free_hash(hash);
+	free_hash(hash, 1);
+	// free_ants(hash->start);
 	return (0);
 }

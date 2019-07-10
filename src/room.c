@@ -6,7 +6,7 @@
 /*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 22:29:29 by hnam              #+#    #+#             */
-/*   Updated: 2019/07/08 21:36:29 by smbaabu          ###   ########.fr       */
+/*   Updated: 2019/07/10 01:03:58 by smbaabu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 int		initialize_data(t_hash *hash)
 {
 	char	*line;
-	int		is_start;
 	int		no;
 	int		i;
+	int		s;
 
 	line = NULL;
 	i = 0;
@@ -25,26 +25,22 @@ int		initialize_data(t_hash *hash)
 	{
 		if (i == 0)
 			no = ft_atoi(line);
-		else if (!ft_strcmp(line, "##start") || !ft_strcmp(line, "##end"))
+		else if ((s = !ft_strcmp(line, "##start")) || !ft_strcmp(line, "##end"))
 		{
-			is_start = !ft_strcmp(line, "##start");
+			free(line);
 			get_next_line(STDIN_FILENO, &line);
-			is_start ? add_room(hash, line, 1, 0) : add_room(hash, line, 0, 1);
+			s ? add_room(hash, line, 1, 0) : add_room(hash, line, 0, 1);
 		}
-		else if (ft_strchr(line, '#'))
-			FP("[comment] %s\n", line);
 		else if (ft_strchr(line, ' ') && !ft_strchr(line, 'L'))
 			add_room(hash, line, 0, 0);
 		else if (ft_strchr(line, '-'))
 			add_neighbor(hash, line);
-		else
+		else if (!ft_strchr(line, '#'))
 			exit_error("non-compiliant line");
 		free(line);
 		i++;
 	}
-	start_ants(hash->start->ants, no);
-	print_hash(hash);
-	return (0);
+	return (no);
 }
 
 t_room	*init_room(char *line, int is_start, int is_end)
@@ -53,8 +49,8 @@ t_room	*init_room(char *line, int is_start, int is_end)
 	char	**info;
 	int		i;
 
-	if(!(room = (t_room *)malloc(sizeof(t_room))))
-		return NULL;
+	if (!(room = (t_room *)malloc(sizeof(t_room))))
+		return (NULL);
 	info = ft_strsplit(line, ' ');
 	room->name = ft_strdup(info[0]);
 	room->point.x = ft_atoi(info[1]);
@@ -81,6 +77,8 @@ void	add_room(t_hash *hash, char *line, int is_start, int is_end)
 	hash_insert(hash, room);
 	if (is_start)
 		hash->start = room;
+	if (is_end)
+		hash->end = room;
 }
 
 void	add_neighbor(t_hash *hash, char *line)

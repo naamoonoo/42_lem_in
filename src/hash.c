@@ -6,7 +6,7 @@
 /*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 22:29:23 by hnam              #+#    #+#             */
-/*   Updated: 2019/07/06 21:28:17 by smbaabu          ###   ########.fr       */
+/*   Updated: 2019/07/10 01:20:31 by smbaabu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ t_hash	*init_hash(int capacity)
 	while (i < capacity)
 		hash->n[i++] = NULL;
 	hash->capacity = capacity;
+	hash->start = NULL;
+	hash->end = NULL;
 	return (hash);
 }
 
@@ -76,7 +78,7 @@ t_room	*hash_find(t_hash *hash, char *name)
 	return (NULL);
 }
 
-void	free_hash(t_hash *hash)
+void	free_hash(t_hash *hash, int r)
 {
 	int		i;
 	t_node	*tmp;
@@ -88,9 +90,13 @@ void	free_hash(t_hash *hash)
 		node = hash->n[i];
 		while (node)
 		{
-			free(node->room->name);
-			node->room->neighbors ? free_queue(node->room->neighbors) : 0;
-			free(node->room);
+			if (r)
+			{
+				free(node->room->name);
+				node->room->ants ? free_ants(node->room->ants) : 0;
+				node->room->neighbors ? free_queue(node->room->neighbors) : 0;
+				free(node->room);
+			}
 			tmp = node;
 			node = node->next;
 			free(tmp);
