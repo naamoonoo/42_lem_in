@@ -6,6 +6,7 @@
 .nfs*
 .vscode/
 .DS_Store
+._.DS_Store
 ._*
 
 lem_in
