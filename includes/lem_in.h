@@ -6,7 +6,7 @@
 /*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 13:31:49 by hnam              #+#    #+#             */
-/*   Updated: 2019/07/10 20:45:11 by smbaabu          ###   ########.fr       */
+/*   Updated: 2019/07/10 21:11:26 by smbaabu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ void				free_strings(char **info);
 
 int					check_room_n(char *name);
 int					check_ants(char *line);
-void				check_start_end(t_hash *hash, char *line);
+void				check_start_end(t_hash *hash, char **line);
 void				check_room(t_hash *hash, char *line, int is_start, int is_end);
 void				check_link(t_hash *hash, char *line);
 void				check_hash(t_hash *hash);

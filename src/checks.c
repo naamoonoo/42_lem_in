@@ -6,7 +6,7 @@
 /*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/10 19:22:21 by smbaabu           #+#    #+#             */
-/*   Updated: 2019/07/10 20:51:33 by smbaabu          ###   ########.fr       */
+/*   Updated: 2019/07/10 21:31:51 by smbaabu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,23 @@ int		check_room_n(char *name)
 	return (*name != '#' && *name != 'L');
 }
 
+int		check_no(char *no)
+{
+	while (*no)
+	{
+		if (!ft_isdigit(*no) && *no != '+' && *no != '-')
+			return (0);
+		no++;
+	}
+	return (1);
+}
+
 int		check_ants(char *line)
 {
 	int n;
 
+	if (!check_no(line))
+		exit_error("ants not a number");
 	n = ft_atoi(line);
 	if (n < 0)
 		exit_error("no ants cannot be negative");
@@ -29,22 +42,22 @@ int		check_ants(char *line)
 	return (n);
 }
 
-void	check_start_end(t_hash *hash, char *line)
+void	check_start_end(t_hash *hash, char **line)
 {
 	int	s;
 
-	if ((s = !ft_strcmp(line, "##start")) || !ft_strcmp(line, "##end"))
+	if ((s = !ft_strcmp(*line, "##start")) || !ft_strcmp(*line, "##end"))
 	{
-		free(line);
-		if (get_next_line(STDIN_FILENO, &line) > 0)
-			s ? check_room(hash, line, 1, 0) : check_room(hash, line, 0, 1);
+		free(*line);
+		if (get_next_line(STDIN_FILENO, line) > 0)
+			s ? check_room(hash, *line, 1, 0) : check_room(hash, *line, 0, 1);
 		else
 			exit_error("error processing start/end command");
 	}
 	else
 	{
-		free(line);
-		if (get_next_line(STDIN_FILENO, &line) <= 0)
+		free(*line);
+		if (get_next_line(STDIN_FILENO, line) <= 0)
 			exit_error("error processing command");
 	}
 }
@@ -58,6 +71,10 @@ void	check_room(t_hash *hash, char *line, int is_start, int is_end)
 	char		*name;
 
 	info = ft_strsplit(line, ' ');
+	if (!info || !info[0] || !info[1] || !info[2])
+		exit_error("could not process room");
+	if (!check_no(info[1]) || !check_no(info[2]))
+		exit_error("x or y is not a number");
 	name = ft_strdup(info[0]);
 	x = ft_atoi(info[1]);
 	y = ft_atoi(info[2]);

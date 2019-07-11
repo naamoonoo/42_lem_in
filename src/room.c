@@ -6,7 +6,7 @@
 /*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 22:29:29 by hnam              #+#    #+#             */
-/*   Updated: 2019/07/10 20:46:11 by smbaabu          ###   ########.fr       */
+/*   Updated: 2019/07/10 21:11:44 by smbaabu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int		initialize_data(t_hash *hash)
 	while ((n = get_next_line(STDIN_FILENO, &line) > 0))
 	{
 		if (!ft_strncmp(line, "##", 2))
-			check_start_end(hash, line);
+			check_start_end(hash, &line);
 		else if (*line == '#')
 			NOP();
 		else if (a == -1)
