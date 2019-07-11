@@ -6,7 +6,7 @@
 /*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 13:31:49 by hnam              #+#    #+#             */
-/*   Updated: 2019/07/10 01:30:07 by smbaabu          ###   ########.fr       */
+/*   Updated: 2019/07/10 20:14:13 by smbaabu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,22 @@
 # include "../lib/includes/libft.h"
 
 # define CAPACITY 100
+# define NOP() ({;})
+
+typedef	struct		s_file_room
+{
+	char	*name;
+	int 	x;
+	int		y;
+	int		is_start;
+	int		is_end;
+}					t_file_room;
+
+typedef	struct		s_file_link
+{
+	char	*a;
+	char	*b;
+}					t_file_link;
 
 typedef struct		s_ant
 {
@@ -62,6 +78,7 @@ typedef struct		s_hash
 	t_node			**n;
 	t_room			*start;
 	t_room			*end;
+	int				size;
 	int				capacity;
 }					t_hash;
 
@@ -79,13 +96,14 @@ int					remove_ants(t_ants *ants);
 void				free_ants(t_ants *ants);
 int					isempty_ants(t_ants *ants);
 void				start_ants(t_ants *ants, int n);
-void				print_ants(t_ants *ants);
+int					move_ants(t_room *from, t_room *to);
 
-t_room				*init_room(char *line, int is_start, int is_end);
+t_room				*init_room(t_file_room f_room);
 int					initialize_data(t_hash *hash);
-void				add_room(t_hash *hash, char *line, int is_start, int is_end);
-void				add_neighbor(t_hash *hash, char *line);
+void				add_room(t_hash *hash, t_file_room f_room);
+void				add_neighbor(t_hash *hash, t_file_link f_link);
 void				enqueue_neighbor(t_room *room, t_room *neighbor);
+void				print_move(int no, char *dst, int i);
 
 t_queue				*init_queue(void);
 void				enqueue(t_queue *queue, t_room *room);
@@ -93,29 +111,32 @@ t_room				*dequeue(t_queue *queue);
 void				free_queue(t_queue *queue);
 int					isempty_queue(t_queue *queue);
 int					delete_queue(t_queue **queue, t_room *room);
-void				reset_queue(t_queue *queue);
 void				print_queue(t_queue *queue);
 t_room				*next_queue(t_queue *queue);
-void				sort_queue(t_queue *queue);
 t_room				*next_queue_unvisited(t_queue *queue);
+void				reset_queue(t_queue *queue);
+void				sort_queue(t_queue *queue);
 
 t_hash				*init_hash(int capacity);
 int					get_hash(char *key, int capacity);
 void				hash_insert(t_hash *hash, t_room *room);
 t_room				*hash_find(t_hash *hash, char *key);
 void				free_hash(t_hash *hash, int r);
+void				print_hash(t_hash	*hash, int v);
 
 void				exit_error(char *msg);
-t_ants				*create_ants(int n);
-int					move_ants(t_room *from, t_room *to);
-void				print_move(int no, char *dst, int i);
-void				print_hash(t_hash	*hash);
+void				free_strings(char **info);
+
+int					check_ants(char *line);
+void				check_start_end(t_hash *hash, char *line);
+void				check_room(t_hash *hash, char *line, int is_start, int is_end);
+void				check_link(t_hash *hash, char *line);
+void				check_hash(t_hash *hash);
 
 void 				algo(t_hash *hash);
 void				unique_paths(t_room *start);
 void				handle_start(t_hash *hash, t_queue *queue);
 void				direct_to_start(t_hash *hash, t_room *neighbor);
-
 void				delete_to_start(t_room *neighbor);
 void				delete_except(t_room *room, t_room *prev, t_room *next);
 void				handle_end(t_hash *hash, t_room *room, t_room *neighbor);

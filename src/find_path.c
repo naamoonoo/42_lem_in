@@ -6,7 +6,7 @@
 /*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 15:36:34 by smbaabu           #+#    #+#             */
-/*   Updated: 2019/07/10 01:42:12 by smbaabu          ###   ########.fr       */
+/*   Updated: 2019/07/10 17:38:57 by smbaabu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void	handle_start(t_hash *hash, t_queue *queue)
 			enqueue(queue, next);
 		i++;
 	}
-	ft_printf("\n");
+	FP("\n");
 	if (!isempty_ants(start->ants))
 	{
 		reset_queue(start->neighbors);
@@ -130,7 +130,7 @@ void	algo(t_hash *hash)
 				enqueue(queue, room);
 			reset_queue(room->neighbors);
 		}
-		ft_printf("\n");
+		FP("\n");
 	}
 	free_queue(queue);
 }

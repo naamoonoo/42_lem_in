@@ -6,7 +6,7 @@
 /*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 22:29:29 by hnam              #+#    #+#             */
-/*   Updated: 2019/07/10 01:03:58 by smbaabu          ###   ########.fr       */
+/*   Updated: 2019/07/10 20:17:23 by smbaabu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,91 +15,74 @@
 int		initialize_data(t_hash *hash)
 {
 	char	*line;
-	int		no;
-	int		i;
-	int		s;
+	int		a;
+	int		n;
 
+	a = -1;
 	line = NULL;
-	i = 0;
-	while (get_next_line(STDIN_FILENO, &line) > 0)
+	while ((n = get_next_line(STDIN_FILENO, &line) > 0))
 	{
-		if (i == 0)
-			no = ft_atoi(line);
-		else if ((s = !ft_strcmp(line, "##start")) || !ft_strcmp(line, "##end"))
-		{
-			free(line);
-			get_next_line(STDIN_FILENO, &line);
-			s ? add_room(hash, line, 1, 0) : add_room(hash, line, 0, 1);
-		}
-		else if (ft_strchr(line, ' ') && !ft_strchr(line, 'L'))
-			add_room(hash, line, 0, 0);
+		if (*line == '#')
+			NOP();
+		else if (!ft_strncmp(line, "##", 2))
+			check_start_end(hash, line);
+		else if (a == -1)
+			a = check_ants(line);
+		else if (ft_strchr(line, ' ') && *line != '#' && *line != 'L')
+			check_room(hash, line, 0, 0);
 		else if (ft_strchr(line, '-'))
-			add_neighbor(hash, line);
-		else if (!ft_strchr(line, '#'))
-			exit_error("non-compiliant line");
+			check_link(hash, line);
 		free(line);
-		i++;
 	}
-	return (no);
+	if (n == -1)
+		exit_error("error reading file");
+	check_hash(hash);
+	return (a);
 }
 
-t_room	*init_room(char *line, int is_start, int is_end)
+t_room	*init_room(t_file_room f_room)
 {
 	t_room	*room;
-	char	**info;
-	int		i;
 
 	if (!(room = (t_room *)malloc(sizeof(t_room))))
 		return (NULL);
-	info = ft_strsplit(line, ' ');
-	room->name = ft_strdup(info[0]);
-	room->point.x = ft_atoi(info[1]);
-	room->point.y = ft_atoi(info[2]);
-	room->is_start = is_start;
-	room->is_end = is_end;
+	room->name = f_room.name;
+	room->point.x = f_room.x;
+	room->point.y = f_room.y;
+	room->is_start = f_room.is_start;
+	room->is_end = f_room.is_end;
 	room->prev = NULL;
 	room->n = 0;
 	room->visited = 0;
 	room->neighbors = NULL;
-	room->ants = init_ants();
-	i = -1;
-	while (info[++i])
-		free(info[i]);
-	free(info);
+	room->ants = NULL;
 	return (room);
 }
 
-void	add_room(t_hash *hash, char *line, int is_start, int is_end)
+void	add_room(t_hash *hash, t_file_room f_room)
 {
 	t_room	*room;
 
-	room = init_room(line, is_start, is_end);
+	room = init_room(f_room);
 	hash_insert(hash, room);
-	if (is_start)
+	if (f_room.is_start)
 		hash->start = room;
-	if (is_end)
+	if (f_room.is_end)
 		hash->end = room;
 }
 
-void	add_neighbor(t_hash *hash, char *line)
+void	add_neighbor(t_hash *hash, t_file_link f_link)
 {
 	t_room	*room;
 	t_room	*neighbor;
-	char	**names;
-	int		i;
 
-	names = ft_strsplit(line, '-');
-	room = hash_find(hash, names[0]);
-	neighbor = hash_find(hash, names[1]);
+	room = hash_find(hash, f_link.a);
+	neighbor = hash_find(hash, f_link.b);
 	if (!room || !neighbor || room == neighbor)
-		return ;
+		exit_error("error adding link");
 	if (!room->neighbors)
 		room->neighbors = init_queue();
 	enqueue_neighbor(room, neighbor);
-	i = -1;
-	while (names[++i])
-		free(names[i]);
-	free(names);
 }
 
 void	enqueue_neighbor(t_room *room, t_room *neighbor)

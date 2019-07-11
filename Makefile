@@ -1,6 +1,6 @@
 NAME	=	lem_in
 
-CC		=	gcc
+CC		=	gcc -g
 CFLAGS	=	-Wall -Wextra -Werror -Iincludes
 DEBUG	=	-g -fsanitize=address
 
@@ -21,7 +21,7 @@ $(NAME)	:	obj $(OBJ)
 db		:	obj $(OBJ)
 			@cd lib && make
 			@mv lib/libftprintf.a .
-			@$(CC) -o $(MANE) $(CFLAGS) $(OBJ) libftprintf.a $(DEBUG)
+			@$(CC) -o $(NAME) $(CFLAGS) $(DEBUG) $(OBJ) libftprintf.a
 			@echo "excutable file $(NAME) with debug mode has been made"
 
 obj		:
