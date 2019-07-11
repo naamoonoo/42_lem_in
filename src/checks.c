@@ -6,11 +6,16 @@
 /*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/10 19:22:21 by smbaabu           #+#    #+#             */
-/*   Updated: 2019/07/10 20:28:16 by smbaabu          ###   ########.fr       */
+/*   Updated: 2019/07/10 20:44:59 by smbaabu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
+
+int		check_room_n(char *name)
+{
+	return (*name != '#' && *name != 'L');
+}
 
 int		check_ants(char *line)
 {
@@ -63,8 +68,8 @@ void	check_room(t_hash *hash, char *line, int is_start, int is_end)
 	if (y < 0)
 		exit_error("y cannot be negative");
 	ret = (t_file_room){name, x, y, is_start, is_end};
-	free_strings(info);
 	add_room(hash, ret);
+	free_strings(info);
 }
 
 void	check_link(t_hash *hash, char *line)
@@ -76,8 +81,8 @@ void	check_link(t_hash *hash, char *line)
 	if (!names || !names[0] || !names[1])
 		exit_error("could not process link");
 	ret = (t_file_link){names[0], names[1]};
-	free_strings(names);
 	add_neighbor(hash, ret);
+	free_strings(names);
 }
 
 void	check_hash(t_hash *hash)

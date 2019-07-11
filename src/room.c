@@ -6,7 +6,7 @@
 /*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 22:29:29 by hnam              #+#    #+#             */
-/*   Updated: 2019/07/10 20:17:23 by smbaabu          ###   ########.fr       */
+/*   Updated: 2019/07/10 20:46:11 by smbaabu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,18 @@ int		initialize_data(t_hash *hash)
 	line = NULL;
 	while ((n = get_next_line(STDIN_FILENO, &line) > 0))
 	{
-		if (*line == '#')
-			NOP();
-		else if (!ft_strncmp(line, "##", 2))
+		if (!ft_strncmp(line, "##", 2))
 			check_start_end(hash, line);
+		else if (*line == '#')
+			NOP();
 		else if (a == -1)
 			a = check_ants(line);
-		else if (ft_strchr(line, ' ') && *line != '#' && *line != 'L')
+		else if (check_room_n(line) && ft_strchr(line, ' '))
 			check_room(hash, line, 0, 0);
-		else if (ft_strchr(line, '-'))
+		else if (check_room_n(line) && ft_strchr(line, '-'))
 			check_link(hash, line);
+		else
+			exit_error("non-compliant line or empty line");
 		free(line);
 	}
 	if (n == -1)

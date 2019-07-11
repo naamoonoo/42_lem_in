@@ -6,7 +6,7 @@
 /*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 13:31:49 by hnam              #+#    #+#             */
-/*   Updated: 2019/07/10 20:14:13 by smbaabu          ###   ########.fr       */
+/*   Updated: 2019/07/10 20:45:11 by smbaabu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,17 @@
 
 typedef	struct		s_file_room
 {
-	char	*name;
-	int 	x;
-	int		y;
-	int		is_start;
-	int		is_end;
+	char			*name;
+	int		 		x;
+	int				y;
+	int				is_start;
+	int				is_end;
 }					t_file_room;
 
 typedef	struct		s_file_link
 {
-	char	*a;
-	char	*b;
+	char			*a;
+	char			*b;
 }					t_file_link;
 
 typedef struct		s_ant
@@ -127,6 +127,7 @@ void				print_hash(t_hash	*hash, int v);
 void				exit_error(char *msg);
 void				free_strings(char **info);
 
+int					check_room_n(char *name);
 int					check_ants(char *line);
 void				check_start_end(t_hash *hash, char *line);
 void				check_room(t_hash *hash, char *line, int is_start, int is_end);
