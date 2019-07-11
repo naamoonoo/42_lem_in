@@ -6,7 +6,7 @@
 /*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/10 19:22:21 by smbaabu           #+#    #+#             */
-/*   Updated: 2019/07/10 21:31:51 by smbaabu          ###   ########.fr       */
+/*   Updated: 2019/07/10 23:31:00 by smbaabu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,6 @@ void	check_start_end(t_hash *hash, char **line)
 			s ? check_room(hash, *line, 1, 0) : check_room(hash, *line, 0, 1);
 		else
 			exit_error("error processing start/end command");
-	}
-	else
-	{
-		free(*line);
-		if (get_next_line(STDIN_FILENO, line) <= 0)
-			exit_error("error processing command");
 	}
 }
 

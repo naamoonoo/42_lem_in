@@ -6,7 +6,7 @@
 /*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/10 00:05:15 by smbaabu           #+#    #+#             */
-/*   Updated: 2019/07/10 01:14:17 by smbaabu          ###   ########.fr       */
+/*   Updated: 2019/07/10 22:31:22 by smbaabu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void	delete_except(t_room *room, t_room *prev, t_room *next)
 
 void	handle_end(t_hash *hash, t_room *room, t_room *neighbor)
 {
+	// ft_printf("END!!");
 	neighbor->prev = room;
 	direct_to_start(hash, neighbor);
 }

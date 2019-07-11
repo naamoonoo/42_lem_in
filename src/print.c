@@ -6,7 +6,7 @@
 /*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 22:29:20 by hnam              #+#    #+#             */
-/*   Updated: 2019/07/10 21:02:50 by smbaabu          ###   ########.fr       */
+/*   Updated: 2019/07/10 23:13:19 by smbaabu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,27 +45,31 @@ void	print_entry(t_room *room)
 	FP("%s %d %d\n", room->name, room->point.x, room->point.y);
 }
 
-void	print_hash(t_hash *hash, int v)
+void	print_links(t_hash *hash)
 {
+	t_hash	*visited;
 	t_node	*n;
 	t_node	*t;
 	int		i;
 
-	FP("%d\n", hash->start->ants->size);
+	visited = init_hash(CAPACITY);
 	i = -1;
 	while (++i < hash->capacity)
 	{
 		n = hash->n[i];
 		while (n)
 		{
-			print_entry(n->room);
-			if (v && n->room->neighbors)
+			hash_insert(visited, n->room);
+			if (n->room->neighbors)
 			{
 				t = n->room->neighbors->front;
 				while (t)
 				{
-					t != n->room->neighbors->front ? FP(" ") : NOP();
-					FP("%s", t->room->name);
+					if (!hash_find(visited, t->room->name))
+					{
+						FP("%s-%s\n", n->room->name, t->room->name);
+						hash_insert(hash, t->room);
+					}
 					t = t->next;
 				}
 			}
@@ -73,4 +77,22 @@ void	print_hash(t_hash *hash, int v)
 		}
 	}
 	FP("\n");
+	free_hash(visited, 0);
+}
+
+void	print_rooms(t_hash *hash)
+{
+	t_node	*n;
+	int		i;
+
+	i = -1;
+	while (++i < hash->capacity)
+	{
+		n = hash->n[i];
+		while (n)
+		{
+			print_entry(n->room);
+			n = n->next;
+		}
+	}
 }

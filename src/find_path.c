@@ -6,7 +6,7 @@
 /*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 15:36:34 by smbaabu           #+#    #+#             */
-/*   Updated: 2019/07/10 17:38:57 by smbaabu          ###   ########.fr       */
+/*   Updated: 2019/07/10 23:55:38 by smbaabu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ int		traverse(t_hash *hash, t_queue *queue, t_room *room)
 	int		i;
 
 	i = 0;
-	while ((neighbor = next_queue_unvisited(room->neighbors)))
+	while (room->neighbors &&
+		(neighbor = next_queue_unvisited(room->neighbors)))
 	{
 		if (hash_find(hash, neighbor->name))
 			delete_to_start(neighbor);
@@ -96,6 +97,8 @@ void	handle_start(t_hash *hash, t_queue *queue)
 			enqueue(queue, next);
 		i++;
 	}
+	if (!n)
+		exit_error("no path to end");
 	FP("\n");
 	if (!isempty_ants(start->ants))
 	{

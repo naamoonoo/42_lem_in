@@ -6,7 +6,7 @@
 /*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 13:31:49 by hnam              #+#    #+#             */
-/*   Updated: 2019/07/10 21:11:26 by smbaabu          ###   ########.fr       */
+/*   Updated: 2019/07/10 23:13:45 by smbaabu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include "../lib/includes/ft_printf.h"
 # include "../lib/includes/libft.h"
 
-# define CAPACITY 100
+# define CAPACITY 42000
 # define NOP() ({;})
 
 typedef	struct		s_file_room
@@ -122,7 +122,8 @@ int					get_hash(char *key, int capacity);
 void				hash_insert(t_hash *hash, t_room *room);
 t_room				*hash_find(t_hash *hash, char *key);
 void				free_hash(t_hash *hash, int r);
-void				print_hash(t_hash	*hash, int v);
+void				print_rooms(t_hash *hash);
+void				print_links(t_hash *hash);
 
 void				exit_error(char *msg);
 void				free_strings(char **info);
