@@ -6,7 +6,7 @@
 /*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 22:29:20 by hnam              #+#    #+#             */
-/*   Updated: 2019/07/10 19:34:44 by smbaabu          ###   ########.fr       */
+/*   Updated: 2019/07/10 21:02:50 by smbaabu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	print_hash(t_hash *hash, int v)
 				t = n->room->neighbors->front;
 				while (t)
 				{
-					t != n->room->neighbors->front ? FP(" ") : 0;
+					t != n->room->neighbors->front ? FP(" ") : NOP();
 					FP("%s", t->room->name);
 					t = t->next;
 				}

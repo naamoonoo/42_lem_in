@@ -6,7 +6,7 @@
 /*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/10 19:22:21 by smbaabu           #+#    #+#             */
-/*   Updated: 2019/07/10 20:44:59 by smbaabu          ###   ########.fr       */
+/*   Updated: 2019/07/10 20:51:33 by smbaabu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	check_room(t_hash *hash, char *line, int is_start, int is_end)
 	name = ft_strdup(info[0]);
 	x = ft_atoi(info[1]);
 	y = ft_atoi(info[2]);
-	if (!name || !*name)
+	if (!name || !*name || !check_room_n(name))
 		exit_error("room name is invalid");
 	if (x < 0)
 		exit_error("x cannot be negative");
@@ -80,6 +80,8 @@ void	check_link(t_hash *hash, char *line)
 	names = ft_strsplit(line, '-');
 	if (!names || !names[0] || !names[1])
 		exit_error("could not process link");
+	if (!check_room_n(names[0]) || !check_room_n(names[1]))
+		exit_error("invalid room name(s) in link");
 	ret = (t_file_link){names[0], names[1]};
 	add_neighbor(hash, ret);
 	free_strings(names);
@@ -88,7 +90,7 @@ void	check_link(t_hash *hash, char *line)
 void	check_hash(t_hash *hash)
 {
 	if (!hash->size)
-		exit_error("no rooms found");
+		exit_error("invalid file or no rooms were found");
 	if (!hash->start)
 		exit_error("start room not found");
 	if (!hash->end)
