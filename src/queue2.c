@@ -6,7 +6,7 @@
 /*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/10 01:10:12 by smbaabu           #+#    #+#             */
-/*   Updated: 2019/07/10 19:34:24 by smbaabu          ###   ########.fr       */
+/*   Updated: 2019/07/11 18:00:29 by smbaabu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,22 @@ int		delete_queue(t_queue **queue, t_room *room)
 				return (1);
 			}
 			prev = node;
+			node = node->next;
+		}
+	}
+	return (0);
+}
+
+int		contains_queue(t_queue *queue, t_room *room)
+{
+	t_node	*node;
+
+	if ((node = queue->front))
+	{
+		while (node)
+		{
+			if (node->room == room)
+				return (1);
 			node = node->next;
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 22:29:29 by hnam              #+#    #+#             */
-/*   Updated: 2019/07/10 21:11:44 by smbaabu          ###   ########.fr       */
+/*   Updated: 2019/07/11 13:26:51 by smbaabu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ t_room	*init_room(t_file_room f_room)
 	room->prev = NULL;
 	room->n = 0;
 	room->visited = 0;
-	room->neighbors = NULL;
-	room->ants = NULL;
+	room->neighbors = init_queue();
+	room->ants = init_ants();
 	return (room);
 }
 
@@ -68,9 +68,17 @@ void	add_room(t_hash *hash, t_file_room f_room)
 	room = init_room(f_room);
 	hash_insert(hash, room);
 	if (f_room.is_start)
+	{
+		if (hash->start)
+			exit_error("cannot have multiple starts");
 		hash->start = room;
+	}
 	if (f_room.is_end)
+	{
+		if (hash->end)
+			exit_error("cannot have multiple ends");
 		hash->end = room;
+	}
 }
 
 void	add_neighbor(t_hash *hash, t_file_link f_link)
@@ -82,8 +90,6 @@ void	add_neighbor(t_hash *hash, t_file_link f_link)
 	neighbor = hash_find(hash, f_link.b);
 	if (!room || !neighbor || room == neighbor)
 		exit_error("error adding link");
-	if (!room->neighbors)
-		room->neighbors = init_queue();
 	enqueue_neighbor(room, neighbor);
 }
 
@@ -91,8 +97,6 @@ void	enqueue_neighbor(t_room *room, t_room *neighbor)
 {
 	t_node	*tmp;
 
-	if (!room->neighbors)
-		room->neighbors = init_queue();
 	tmp = room->neighbors->front;
 	while (tmp)
 	{
@@ -101,8 +105,6 @@ void	enqueue_neighbor(t_room *room, t_room *neighbor)
 		tmp = tmp->next;
 	}
 	enqueue(room->neighbors, neighbor);
-	if (!neighbor->neighbors)
-		neighbor->neighbors = init_queue();
 	tmp = neighbor->neighbors->front;
 	while (tmp)
 	{

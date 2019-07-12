@@ -6,7 +6,7 @@
 /*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 22:29:23 by hnam              #+#    #+#             */
-/*   Updated: 2019/07/10 21:02:39 by smbaabu          ###   ########.fr       */
+/*   Updated: 2019/07/11 16:51:21 by smbaabu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ int		get_hash(char *key, int capacity)
 	res = 0;
 	i = -1;
 	while (key[++i])
-		res = (int)key[i] * i;
+		res += key[i];
+	res += ft_strlen(key);
 	return (res % capacity);
 }
 

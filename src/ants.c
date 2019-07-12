@@ -6,7 +6,7 @@
 /*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 14:56:44 by smbaabu           #+#    #+#             */
-/*   Updated: 2019/07/10 20:02:18 by smbaabu          ###   ########.fr       */
+/*   Updated: 2019/07/11 13:19:03 by smbaabu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,6 @@ int		move_ants(t_room *from, t_room *to)
 {
 	int no;
 
-	if (!to->ants)
-		to->ants = init_ants();
 	no = remove_ants(from->ants);
 	add_ants(to->ants, no);
 	return (no);

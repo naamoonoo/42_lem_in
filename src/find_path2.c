@@ -6,13 +6,13 @@
 /*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/10 00:05:15 by smbaabu           #+#    #+#             */
-/*   Updated: 2019/07/10 22:31:22 by smbaabu          ###   ########.fr       */
+/*   Updated: 2019/07/11 18:02:19 by smbaabu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-void	delete_to_start(t_room *neighbor)
+void	delete_to_start(t_hash *hash, t_room *neighbor)
 {
 	t_room	*next;
 
@@ -20,7 +20,11 @@ void	delete_to_start(t_room *neighbor)
 	{
 		next = neighbor;
 		neighbor = neighbor->prev;
-		delete_queue(&neighbor->neighbors, next);
+		if (!hash_find(hash, next->name))
+		{
+			delete_queue(&neighbor->neighbors, next);
+			// ft_printf("ds: deleting %s -> %s\n", neighbor->name, next->name);
+		}
 	}
 }
 
@@ -33,6 +37,8 @@ void	delete_except(t_room *room, t_room *prev, t_room *next)
 
 	n = room->neighbors->size;
 	i = -1;
+	if (!contains_queue(prev->neighbors, room))
+		enqueue(prev->neighbors, room);
 	while (++i < n)
 	{
 		if ((node = room->neighbors->front))
@@ -41,7 +47,10 @@ void	delete_except(t_room *room, t_room *prev, t_room *next)
 			{
 				neighbor = node->room;
 				if (neighbor != prev && neighbor != next)
+				{
+					// ft_printf("de: deleting %s -> %s\n", room->name, neighbor->name);
 					delete_queue(&room->neighbors, neighbor);
+				}
 				node = node->next;
 			}
 		}
@@ -50,7 +59,6 @@ void	delete_except(t_room *room, t_room *prev, t_room *next)
 
 void	handle_end(t_hash *hash, t_room *room, t_room *neighbor)
 {
-	// ft_printf("END!!");
 	neighbor->prev = room;
 	direct_to_start(hash, neighbor);
 }

@@ -6,7 +6,7 @@
 /*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/10 19:22:21 by smbaabu           #+#    #+#             */
-/*   Updated: 2019/07/10 23:31:00 by smbaabu          ###   ########.fr       */
+/*   Updated: 2019/07/11 13:42:58 by smbaabu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int		check_no(char *no)
 {
 	while (*no)
 	{
-		if (!ft_isdigit(*no) && *no != '+' && *no != '-')
+		if (!ft_isdigit(*no))
 			return (0);
 		no++;
 	}
@@ -35,8 +35,8 @@ int		check_ants(char *line)
 	if (!check_no(line))
 		exit_error("ants not a number");
 	n = ft_atoi(line);
-	if (n < 0)
-		exit_error("no ants cannot be negative");
+	if (n <= 0)
+		exit_error("no ants cannot zero or be negative");
 	if (n > CAPACITY)
 		exit_error("ants greater than capacity");
 	return (n);
