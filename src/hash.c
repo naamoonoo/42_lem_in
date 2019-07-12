@@ -6,7 +6,7 @@
 /*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 22:29:23 by hnam              #+#    #+#             */
-/*   Updated: 2019/07/11 16:51:21 by smbaabu          ###   ########.fr       */
+/*   Updated: 2019/07/11 23:42:29 by smbaabu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void	free_hash(t_hash *hash, int r)
 		node = hash->n[i];
 		while (node)
 		{
-			if (r)
+			if (r == 1)
 			{
 				free(node->room->name);
 				node->room->ants ? free_ants(node->room->ants) : NOP();
