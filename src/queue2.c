@@ -6,7 +6,7 @@
 /*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/10 01:10:12 by smbaabu           #+#    #+#             */
-/*   Updated: 2019/07/11 18:00:29 by smbaabu          ###   ########.fr       */
+/*   Updated: 2019/07/11 18:57:39 by smbaabu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 t_room	*next_queue(t_queue *queue)
 {
-	t_node			*node;
-	int				i;
+	t_node	*node;
+	int		i;
 
 	if ((node = queue->front))
 	{

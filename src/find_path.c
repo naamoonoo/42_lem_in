@@ -6,33 +6,91 @@
 /*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 15:36:34 by smbaabu           #+#    #+#             */
-/*   Updated: 2019/07/11 17:45:08 by smbaabu          ###   ########.fr       */
+/*   Updated: 2019/07/11 23:15:20 by smbaabu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
+void	delete_to_start(t_hash *hash, t_room *neighbor)
+{
+	t_room	*next;
+
+	while (!neighbor->is_start)
+	{
+		next = neighbor;
+		neighbor = neighbor->prev;
+		if (!hash_find(hash, next->name))
+		{
+			delete_queue(&neighbor->neighbors, next);
+		}
+	}
+}
+
+void	delete_except(t_room *room, t_room *prev, t_room *next)
+{
+	t_node	*node;
+	t_room	*neighbor;
+	int		n;
+	int		i;
+
+	n = room->neighbors->size;
+	i = -1;
+	if (!contains_queue(prev->neighbors, room))
+	{
+		enqueue(prev->neighbors, room);
+	}
+	while (++i < n)
+	{
+		if ((node = room->neighbors->front))
+		{
+			while (node)
+			{
+				neighbor = node->room;
+				if (neighbor != prev && neighbor != next)
+				{
+					delete_queue(&room->neighbors, neighbor);
+				}
+				node = node->next;
+			}
+		}
+	}
+}
+
 void	direct_to_start(t_hash *hash, t_room *neighbor)
 {
 	t_room	*next;
+	t_room	*p;
 	int		n;
 
+	p = neighbor;
 	n = 0;
 	while (!neighbor->is_start)
 	{
 		next = neighbor;
 		neighbor = neighbor->prev;
 		if (hash_find(hash, neighbor->name))
+		{
+			ft_printf("found %s in hash\n", neighbor->name);
+			print_path(neighbor);
 			return ;
+		}
+		if (!neighbor->is_start)
+			neighbor->n = ++n;
+	}
+	neighbor = p;
+	ft_printf("success path\n");
+	print_path(neighbor);
+	while (!neighbor->is_start)
+	{
+		next = neighbor;
+		neighbor = neighbor->prev;
+		delete_queue(&next->neighbors, neighbor);
 		if (!neighbor->is_start)
 		{
 			delete_except(neighbor, neighbor->prev, next);
 			hash_insert(hash, neighbor);
 		}
-		delete_queue(&next->neighbors, neighbor);
-		n++;
-		if (!neighbor->is_start)
-			neighbor->n = n;
 	}
 }
 
@@ -46,10 +104,17 @@ int		traverse(t_hash *hash, t_queue *queue, t_room *room)
 	{
 		if (hash_find(hash, neighbor->name))
 			delete_to_start(hash, neighbor);
-		else if (neighbor->is_end)
-			handle_end(hash, room, neighbor);
 		else
-			visit(queue, room, neighbor);
+		{
+			neighbor->prev = room;
+			if (neighbor->is_end)
+				direct_to_start(hash, neighbor);
+			else
+			{
+				neighbor->visited = 1;
+				enqueue(queue, neighbor);
+			}
+		}
 		i++;
 	}
 	return (i);

@@ -6,7 +6,7 @@
 /*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 22:29:20 by hnam              #+#    #+#             */
-/*   Updated: 2019/07/11 16:53:17 by smbaabu          ###   ########.fr       */
+/*   Updated: 2019/07/11 21:23:15 by smbaabu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,4 +118,17 @@ void	print_rooms(t_hash *hash)
 			n = n->next;
 		}
 	}
+}
+
+void	print_path(t_room *end)
+{
+	t_room	*room;
+
+	room = end;
+	while (!room->is_start)
+	{
+		FP("%s<-", room->name);
+		room = room->prev;
+	}
+	FP("start\n");
 }

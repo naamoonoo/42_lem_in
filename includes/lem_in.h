@@ -6,7 +6,7 @@
 /*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 13:31:49 by hnam              #+#    #+#             */
-/*   Updated: 2019/07/11 18:01:01 by smbaabu          ###   ########.fr       */
+/*   Updated: 2019/07/11 21:00:19 by smbaabu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,7 @@ void				free_hash(t_hash *hash, int r);
 void				print_hash(t_hash *hash);
 void				print_rooms(t_hash *hash);
 void				print_links(t_hash *hash);
+void				print_path(t_room *end);
 
 void				exit_error(char *msg);
 void				free_strings(char **info);
@@ -138,12 +139,5 @@ void				check_link(t_hash *hash, char *line);
 void				check_hash(t_hash *hash);
 
 void 				algo(t_hash *hash);
-void				unique_paths(t_room *start);
-void				handle_start(t_hash *hash, t_queue *queue);
-void				direct_to_start(t_hash *hash, t_room *neighbor);
-void				delete_to_start(t_hash *hash, t_room *neighbor);
-void				delete_except(t_room *room, t_room *prev, t_room *next);
-void				handle_end(t_hash *hash, t_room *room, t_room *neighbor);
-void				visit(t_queue *queue, t_room *room, t_room *neighbor);
 
 #endif
