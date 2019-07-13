@@ -6,7 +6,7 @@
 /*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 22:29:20 by hnam              #+#    #+#             */
-/*   Updated: 2019/07/11 21:23:15 by smbaabu          ###   ########.fr       */
+/*   Updated: 2019/07/12 02:30:41 by smbaabu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	print_queue(t_queue *queue)
 
 	if ((node = queue->front))
 	{
+		FP("[");
 		while (node)
 		{
 			if (node != queue->front)
@@ -32,7 +33,7 @@ void	print_queue(t_queue *queue)
 			FP("%s", node->room->name);
 			node = node->next;
 		}
-		FP(" rooms\n");
+		FP("] rooms\n");
 	}
 }
 
@@ -101,6 +102,7 @@ void	print_links(t_hash *hash)
 		}
 	}
 	free_hash(visited, 0);
+	ft_printf("\n");
 }
 
 void	print_rooms(t_hash *hash)

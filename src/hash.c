@@ -6,7 +6,7 @@
 /*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 22:29:23 by hnam              #+#    #+#             */
-/*   Updated: 2019/07/11 23:42:29 by smbaabu          ###   ########.fr       */
+/*   Updated: 2019/07/12 01:33:06 by smbaabu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,12 +88,12 @@ void	free_hash(t_hash *hash, int r)
 	t_node	*node;
 
 	i = -1;
-	while (hash->n[++i])
+	while (++i < hash->capacity)
 	{
 		node = hash->n[i];
 		while (node)
 		{
-			if (r == 1)
+			if (r)
 			{
 				free(node->room->name);
 				node->room->ants ? free_ants(node->room->ants) : NOP();

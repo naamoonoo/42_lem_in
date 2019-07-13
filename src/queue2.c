@@ -6,7 +6,7 @@
 /*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/10 01:10:12 by smbaabu           #+#    #+#             */
-/*   Updated: 2019/07/11 18:57:39 by smbaabu          ###   ########.fr       */
+/*   Updated: 2019/07/12 03:09:26 by smbaabu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,11 @@ int		delete_queue(t_queue **queue, t_room *room)
 				if (prev)
 					prev->next = node->next;
 				else
+				{
+					if ((*queue)->front == (*queue)->back)
+						(*queue)->back = NULL;
 					(*queue)->front = node->next;
+				}
 				if ((*queue)->idx)
 					(*queue)->idx--;
 				(*queue)->size--;
@@ -92,7 +96,7 @@ void	swap(t_node *a, t_node *b)
 {
 	t_room	*room;
 	int		key;
-	
+
 	room = a->room;
 	key = a->key;
 	a->key = b->key;

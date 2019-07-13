@@ -6,7 +6,7 @@
 /*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 13:31:49 by hnam              #+#    #+#             */
-/*   Updated: 2019/07/11 21:00:19 by smbaabu          ###   ########.fr       */
+/*   Updated: 2019/07/12 01:36:15 by smbaabu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,6 @@ int					initialize_data(t_hash *hash);
 void				add_room(t_hash *hash, t_file_room f_room);
 void				add_neighbor(t_hash *hash, t_file_link f_link);
 void				enqueue_neighbor(t_room *room, t_room *neighbor);
-void				print_move(int no, char *dst, int i);
 
 t_queue				*init_queue(void);
 void				enqueue(t_queue *queue, t_room *room);
@@ -116,13 +115,15 @@ t_room				*next_queue(t_queue *queue);
 t_room				*next_queue_unvisited(t_queue *queue);
 void				reset_queue(t_queue *queue);
 void				sort_queue(t_queue *queue);
-void				print_queue(t_queue *queue);
 
 t_hash				*init_hash(int capacity);
 int					get_hash(char *key, int capacity);
 void				hash_insert(t_hash *hash, t_room *room);
 t_room				*hash_find(t_hash *hash, char *key);
 void				free_hash(t_hash *hash, int r);
+
+void				print_move(int no, char *dst, int i);
+void				print_queue(t_queue *queue);
 void				print_hash(t_hash *hash);
 void				print_rooms(t_hash *hash);
 void				print_links(t_hash *hash);
