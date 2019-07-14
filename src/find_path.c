@@ -6,23 +6,11 @@
 /*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 15:36:34 by smbaabu           #+#    #+#             */
-/*   Updated: 2019/07/13 18:04:38 by smbaabu          ###   ########.fr       */
+/*   Updated: 2019/07/13 18:14:09 by smbaabu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
-
-void	check_start_empty(t_room *room)
-{
-	char *f, *b;
-	if (room->is_start)
-	{
-		print_queue(room->neighbors);
-		f = room->neighbors->front ? room->neighbors->front->room->name : "null";
-		b = room->neighbors->back ? room->neighbors->back->room->name : "null";
-		ft_printf("front %s back %s size %d\n", f, b, room->neighbors->size);
-	}
-}
 
 void	delete_to_start(t_hash *hash, t_room *neighbor)
 {
