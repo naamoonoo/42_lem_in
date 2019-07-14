@@ -6,7 +6,7 @@
 /*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 22:29:25 by hnam              #+#    #+#             */
-/*   Updated: 2019/07/12 01:33:26 by smbaabu          ###   ########.fr       */
+/*   Updated: 2019/07/13 18:04:45 by smbaabu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ int	main(void)
 	no = initialize_data(hash);
 	start_ants(hash->start->ants, no);
 	// print_hash(hash);
-	// print_rooms(hash);
-	// print_links(hash);
+	print_rooms(hash);
+	print_links(hash);
 	algo(hash);
 	free_hash(hash, 1);
 	// while (1);

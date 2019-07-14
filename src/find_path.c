@@ -6,21 +6,22 @@
 /*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 15:36:34 by smbaabu           #+#    #+#             */
-/*   Updated: 2019/07/12 02:28:50 by smbaabu          ###   ########.fr       */
+/*   Updated: 2019/07/13 18:04:38 by smbaabu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-int		check_start_empty(t_room *room)
+void	check_start_empty(t_room *room)
 {
-	if (room->is_start && !room->neighbors->front)
+	char *f, *b;
+	if (room->is_start)
 	{
-		ft_printf("start empty! %d\n", room->neighbors->size);
 		print_queue(room->neighbors);
-		return (1);
+		f = room->neighbors->front ? room->neighbors->front->room->name : "null";
+		b = room->neighbors->back ? room->neighbors->back->room->name : "null";
+		ft_printf("front %s back %s size %d\n", f, b, room->neighbors->size);
 	}
-	return (0);
 }
 
 void	delete_to_start(t_hash *hash, t_room *neighbor)
@@ -32,11 +33,7 @@ void	delete_to_start(t_hash *hash, t_room *neighbor)
 		next = neighbor;
 		neighbor = neighbor->prev;
 		if (!hash_find(hash, next->name))
-		{
-			ft_printf("ds: deleting %s->%s\n", neighbor->name, next->name);
 			delete_queue(&neighbor->neighbors, next);
-			check_start_empty(neighbor);
-		}
 	}
 }
 
@@ -50,14 +47,7 @@ void	delete_except(t_room *room, t_room *prev, t_room *next)
 	n = room->neighbors->size;
 	i = -1;
 	if (!contains_queue(prev->neighbors, room))
-	{
-		ft_printf("re: reattaching %s->%s\n", prev->name, room->name);
-		ft_printf("before front %s front size %d\n", prev->neighbors->front->room->name, prev->neighbors->size);
-		print_queue(prev->neighbors);
 		enqueue(prev->neighbors, room);
-		ft_printf("after front %s front size %d\n", prev->neighbors->front->room->name, prev->neighbors->size);
-		print_queue(prev->neighbors);
-	}
 	while (++i < n)
 	{
 		if ((node = room->neighbors->front))
@@ -66,11 +56,7 @@ void	delete_except(t_room *room, t_room *prev, t_room *next)
 			{
 				neighbor = node->room;
 				if (neighbor != prev && neighbor != next)
-				{
-					ft_printf("de: deleting %s->%s\n", room->name, neighbor->name);
 					delete_queue(&room->neighbors, neighbor);
-					check_start_empty(room);
-				}
 				node = node->next;
 			}
 		}
@@ -97,14 +83,11 @@ void	direct_to_start(t_hash *hash, t_room *neighbor)
 			neighbor->n = ++n;
 	}
 	neighbor = p;
-	print_path(p);
 	while (!neighbor->is_start)
 	{
 		next = neighbor;
 		neighbor = neighbor->prev;
-		ft_printf("di: deleting %s->%s\n", next->name, neighbor->name);
 		delete_queue(&next->neighbors, neighbor);
-		check_start_empty(next);
 		if (!neighbor->is_start)
 		{
 			delete_except(neighbor, neighbor->prev, next);
@@ -122,10 +105,7 @@ int		traverse(t_hash *hash, t_queue *queue, t_room *room)
 	while ((neighbor = next_queue_unvisited(room->neighbors)))
 	{
 		if (hash_find(hash, neighbor->name))
-		{
-			ft_printf("found in hash");
 			delete_to_start(hash, neighbor);
-		}
 		else
 		{
 			neighbor->prev = room;
