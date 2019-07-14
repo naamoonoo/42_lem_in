@@ -6,7 +6,7 @@
 /*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 22:29:23 by hnam              #+#    #+#             */
-/*   Updated: 2019/07/12 01:33:06 by smbaabu          ###   ########.fr       */
+/*   Updated: 2019/07/13 20:35:50 by smbaabu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,8 @@ void	free_hash(t_hash *hash, int r)
 			if (r)
 			{
 				free(node->room->name);
-				node->room->ants ? free_ants(node->room->ants) : NOP();
-				node->room->neighbors ? free_queue(node->room->neighbors) : NOP();
+				free_ants(node->room->ants);
+				free_queue(node->room->neighbors);
 				free(node->room);
 			}
 			tmp = node;

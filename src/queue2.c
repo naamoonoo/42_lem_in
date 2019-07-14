@@ -6,7 +6,7 @@
 /*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/10 01:10:12 by smbaabu           #+#    #+#             */
-/*   Updated: 2019/07/13 17:54:22 by smbaabu          ###   ########.fr       */
+/*   Updated: 2019/07/13 20:52:20 by smbaabu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_room	*next_queue(t_queue *queue)
 			node = node->next;
 		queue->idx++;
 	}
-	return node ? node->room : NULL;
+	return (node ? node->room : NULL);
 }
 
 t_room	*next_queue_unvisited(t_queue *queue)
@@ -35,7 +35,7 @@ t_room	*next_queue_unvisited(t_queue *queue)
 	if (queue->front)
 		while ((room = next_queue(queue)) && room->visited)
 			;
-	return room;
+	return (room);
 }
 
 void	reset_queue(t_queue *queue)
@@ -59,10 +59,8 @@ int		delete_queue(t_queue **queue, t_room *room)
 					prev->next = node->next;
 				else
 					(*queue)->front = node->next;
-				if (node == (*queue)->back)
-					(*queue)->back = prev;
-				if ((*queue)->idx)
-					(*queue)->idx--;
+				node == (*queue)->back ? (*queue)->back = prev : NOP();
+				(*queue)->idx ? (*queue)->idx-- : NOP();
 				(*queue)->size--;
 				free(node);
 				return (1);
@@ -72,56 +70,4 @@ int		delete_queue(t_queue **queue, t_room *room)
 		}
 	}
 	return (0);
-}
-
-int		contains_queue(t_queue *queue, t_room *room)
-{
-	t_node	*node;
-
-	if ((node = queue->front))
-	{
-		while (node)
-		{
-			if (node->room == room)
-				return (1);
-			node = node->next;
-		}
-	}
-	return (0);
-}
-
-void	swap(t_node *a, t_node *b)
-{
-	t_room	*room;
-	int		key;
-
-	room = a->room;
-	key = a->key;
-	a->key = b->key;
-	a->room = b->room;
-	b->key = key;
-	b->room = room;
-}
-
-void	sort_queue(t_queue *queue)
-{
-	t_node			*node;
-	t_node			*i;
-	t_node			*j;
-
-	if ((node = queue->front))
-	{
-		i = node;
-		while (i->next)
-		{
-			j = node;
-			while (j->next)
-			{
-				if (j->room->n > j->next->room->n)
-					swap(j, j->next);
-				j = j->next;
-			}
-			i = i->next;
-		}
-	}
 }

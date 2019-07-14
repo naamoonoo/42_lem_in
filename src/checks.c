@@ -6,27 +6,11 @@
 /*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/10 19:22:21 by smbaabu           #+#    #+#             */
-/*   Updated: 2019/07/11 13:42:58 by smbaabu          ###   ########.fr       */
+/*   Updated: 2019/07/13 20:32:41 by smbaabu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
-
-int		check_room_n(char *name)
-{
-	return (*name != '#' && *name != 'L');
-}
-
-int		check_no(char *no)
-{
-	while (*no)
-	{
-		if (!ft_isdigit(*no))
-			return (0);
-		no++;
-	}
-	return (1);
-}
 
 int		check_ants(char *line)
 {
@@ -85,8 +69,8 @@ void	check_room(t_hash *hash, char *line, int is_start, int is_end)
 
 void	check_link(t_hash *hash, char *line)
 {
-	t_file_link ret;
-	char         **names;
+	t_file_link	ret;
+	char		**names;
 
 	names = ft_strsplit(line, '-');
 	if (!names || !names[0] || !names[1])

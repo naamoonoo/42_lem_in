@@ -6,7 +6,7 @@
 /*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 22:29:29 by hnam              #+#    #+#             */
-/*   Updated: 2019/07/11 13:26:51 by smbaabu          ###   ########.fr       */
+/*   Updated: 2019/07/13 20:54:49 by smbaabu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,7 @@ int		initialize_data(t_hash *hash)
 			exit_error("non-compliant line or empty line");
 		free(line);
 	}
-	if (n == -1)
-		exit_error("error reading file");
-	check_hash(hash);
+	final_checks(hash, n);
 	return (a);
 }
 

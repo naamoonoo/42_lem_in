@@ -6,7 +6,7 @@
 /*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 22:29:27 by hnam              #+#    #+#             */
-/*   Updated: 2019/07/13 17:56:52 by smbaabu          ###   ########.fr       */
+/*   Updated: 2019/07/13 20:49:46 by smbaabu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_queue	*init_queue(void)
 	t_queue	*queue;
 
 	if (!(queue = (t_queue *)malloc(sizeof(t_queue))))
-		return NULL;
+		return (NULL);
 	queue->front = NULL;
 	queue->back = NULL;
 	queue->size = 0;
@@ -61,7 +61,7 @@ t_room	*dequeue(t_queue *queue)
 	room = tmp->room;
 	free(tmp);
 	queue->size--;
-	return room;
+	return (room);
 }
 
 void	free_queue(t_queue *queue)
@@ -83,5 +83,5 @@ void	free_queue(t_queue *queue)
 
 int		isempty_queue(t_queue *queue)
 {
-	return !queue->front;
+	return (!queue->front);
 }

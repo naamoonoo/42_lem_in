@@ -6,7 +6,7 @@
 /*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 14:56:44 by smbaabu           #+#    #+#             */
-/*   Updated: 2019/07/11 13:19:03 by smbaabu          ###   ########.fr       */
+/*   Updated: 2019/07/13 19:56:18 by smbaabu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,22 +80,4 @@ void	free_ants(t_ants *ants)
 int		isempty_ants(t_ants *ants)
 {
 	return (!ants->front);
-}
-
-void	start_ants(t_ants *ants, int n)
-{
-	int	i;
-
-	i = 0;
-	while (++i <= n)
-		add_ants(ants, i);
-}
-
-int		move_ants(t_room *from, t_room *to)
-{
-	int no;
-
-	no = remove_ants(from->ants);
-	add_ants(to->ants, no);
-	return (no);
 }
