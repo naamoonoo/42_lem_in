@@ -6,7 +6,7 @@
 /*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 13:31:49 by hnam              #+#    #+#             */
-/*   Updated: 2019/07/13 21:02:50 by smbaabu          ###   ########.fr       */
+/*   Updated: 2019/07/13 21:18:53 by smbaabu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 typedef	struct		s_file_room
 {
 	char			*name;
-	int		 		x;
+	int				x;
 	int				y;
 	int				is_start;
 	int				is_end;
@@ -135,7 +135,7 @@ void				free_strings(char **info);
 int					check_room_n(char *name);
 int					check_ants(char *line);
 void				check_start_end(t_hash *hash, char **line);
-void				check_room(t_hash *hash, char *line, int is_start, int is_end);
+void				check_room(t_hash *hash, char *line, int s, int e);
 void				check_link(t_hash *hash, char *line);
 void				check_hash(t_hash *hash);
 void				final_checks(t_hash *hash, int n);
@@ -144,7 +144,7 @@ void				direct_to_start(t_hash *hash, t_room *neighbor);
 int					traverse(t_hash *hash, t_queue *queue, t_room *room);
 void				unique_paths(t_room *start);
 void				handle_start(t_hash *hash, t_queue *queue);
-void 				algo(t_hash *hash);
+void				algo(t_hash *hash);
 void				direct_to_start2(t_hash *hash, t_room *neighbor);
 void				delete_to_start(t_hash *hash, t_room *neighbor);
 void				delete_except(t_room *room, t_room *prev, t_room *next);
