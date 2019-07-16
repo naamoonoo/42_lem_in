@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 23:24:35 by hnam              #+#    #+#             */
-/*   Updated: 2019/07/13 21:17:35 by smbaabu          ###   ########.fr       */
+/*   Updated: 2019/06/09 23:37:10 by hnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,8 @@ int					get_small(int a, int b);
 long				ft_atol(const char *str);
 void				ft_n_swap(int *a, int *b);
 
+
+
 /*
 **---------------------checking---------------------
 */
@@ -156,5 +158,6 @@ t_list				*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 
 int					get_next_line(const int fd, char **line);
 int					get_file(int fd, char **file);
+
 
 #endif

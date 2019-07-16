@@ -3,26 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 22:29:25 by hnam              #+#    #+#             */
-/*   Updated: 2019/07/13 19:46:15 by smbaabu          ###   ########.fr       */
+/*   Updated: 2019/07/07 22:56:22 by hnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-int	main(void)
+int	main()
 {
 	t_hash	*hash;
-	int		no;
+	t_queue	**paths;
+	int		idx;
 
 	hash = init_hash(CAPACITY);
-	no = initialize_data(hash);
-	start_ants(hash->start->ants, no);
-	print_rooms(hash);
-	print_links(hash);
-	algo(hash);
+	initialize_data(hash);
+	// if (is_error(hash))
+	// 	return (0);
+//
+	print_hash(hash);
+	//
+	paths = get_paths(hash);
+	// put_ant(hash, paths);
+	idx = 0;
+	// while (paths && idx < hash->size && paths[idx])
+	// 	free_queue(paths[idx++]);
+	// free(paths);
 	free_hash(hash, 1);
+
+	// while(1)
+	// 	sleep(1);
 	return (0);
 }

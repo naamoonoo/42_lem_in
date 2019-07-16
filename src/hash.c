@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hash.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 22:29:23 by hnam              #+#    #+#             */
-/*   Updated: 2019/07/13 20:35:50 by smbaabu          ###   ########.fr       */
+/*   Updated: 2019/07/07 00:45:04 by hnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,18 @@ t_hash	*init_hash(int capacity)
 	t_hash	*hash;
 	int		i;
 
-	hash = malloc(sizeof(t_hash));
+	if(!(hash = (t_hash *)malloc(sizeof(t_hash))))
+		return (NULL);
 	if (!(hash->n = (t_node **)malloc(sizeof(t_node *) * capacity)))
 		return (NULL);
 	i = 0;
 	while (i < capacity)
 		hash->n[i++] = NULL;
 	hash->capacity = capacity;
-	hash->size = 0;
+	hash->ant_num = 0;
 	hash->start = NULL;
 	hash->end = NULL;
+	hash->size = 0;
 	return (hash);
 }
 
@@ -35,11 +37,10 @@ int		get_hash(char *key, int capacity)
 	int	res;
 	int	i;
 
-	res = 0;
 	i = -1;
+	res = 0;
 	while (key[++i])
-		res += key[i];
-	res += ft_strlen(key);
+		res = (int)key[i] * i;
 	return (res % capacity);
 }
 
@@ -62,42 +63,41 @@ void	hash_insert(t_hash *hash, t_room *room)
 			tmp = tmp->next;
 		tmp->next = node;
 	}
-	hash->size++;
+	hash->size += 1;
 }
 
-t_room	*hash_find(t_hash *hash, char *name)
+t_room	*hash_find(t_hash *hash, char *key)
 {
 	int		k;
 	t_node	*node;
 
-	k = get_hash(name, hash->capacity);
+	k = get_hash(key, hash->capacity);
 	if (!(node = hash->n[k]))
 		return (NULL);
-	if (!ft_strcmp(node->room->name, name))
+	if (!ft_strcmp(node->room->name, key))
 		return (node->room);
 	while ((node = node->next))
-		if (!ft_strcmp(node->room->name, name))
+		if (!ft_strcmp(node->room->name, key))
 			return (node->room);
 	return (NULL);
 }
 
-void	free_hash(t_hash *hash, int r)
+void	free_hash(t_hash *hash, int is_last)
 {
 	int		i;
 	t_node	*tmp;
 	t_node	*node;
 
 	i = -1;
-	while (++i < hash->capacity)
+	while (hash->n[++i])
 	{
 		node = hash->n[i];
 		while (node)
 		{
-			if (r)
+			if (is_last)
 			{
 				free(node->room->name);
-				free_ants(node->room->ants);
-				free_queue(node->room->neighbors);
+				node->room->neighbors ? free_queue(node->room->neighbors) : 0;
 				free(node->room);
 			}
 			tmp = node;
