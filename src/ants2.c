@@ -1,28 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ants2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: smbaabu <smbaabu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/26 22:29:25 by hnam              #+#    #+#             */
-/*   Updated: 2019/07/13 19:46:15 by smbaabu          ###   ########.fr       */
+/*   Created: 2019/07/13 19:55:51 by smbaabu           #+#    #+#             */
+/*   Updated: 2019/07/13 19:56:30 by smbaabu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-int	main(void)
+void	start_ants(t_ants *ants, int n)
 {
-	t_hash	*hash;
-	int		no;
+	int	i;
 
-	hash = init_hash(CAPACITY);
-	no = initialize_data(hash);
-	start_ants(hash->start->ants, no);
-	print_rooms(hash);
-	print_links(hash);
-	algo(hash);
-	free_hash(hash, 1);
-	return (0);
+	i = 0;
+	while (++i <= n)
+		add_ants(ants, i);
+}
+
+int		move_ants(t_room *from, t_room *to)
+{
+	int no;
+
+	no = remove_ants(from->ants);
+	add_ants(to->ants, no);
+	return (no);
 }
